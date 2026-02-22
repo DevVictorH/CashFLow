@@ -20,11 +20,13 @@ public class Money {
 
     private Date date;
 
-    @OneToMany
-    private User userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @OneToMany
-    private Category categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
 
 }
