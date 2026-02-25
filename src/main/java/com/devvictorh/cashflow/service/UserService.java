@@ -2,15 +2,15 @@ package com.devvictorh.cashflow.service;
 
 import com.devvictorh.cashflow.dto.UserRequestDTO;
 import com.devvictorh.cashflow.dto.UserResponseDTO;
-import com.devvictorh.cashflow.entity.User;
+import com.devvictorh.cashflow.entity.UserEntity;
 
 import java.util.List;
 
 public interface UserService {
 
-    public User salvar(UserRequestDTO user);
+    public UserEntity salvar(UserRequestDTO user);
 
-    public User atualizar(Long id, UserRequestDTO user);
+    public UserEntity atualizar(Long id, UserRequestDTO user);
 
     public void deletar(Long id);
 

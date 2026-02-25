@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "category")
 @Data
-public class Category {
+public class CategoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,15 +22,15 @@ public class Category {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity userEntity;
 
     @OneToMany(mappedBy = "category")
-    private List<Money> moneyList;
+    private List<IncomeEntity> incomeEntityList;
 
     @OneToMany(mappedBy = "category")
-    private List<Expanse> expanses;
+    private List<ExpanseEntity> expans;
 
     @OneToMany(mappedBy = "category")
-    private List<Goal> goals;
+    private List<GoalEntity> goalEntities;
 
 }

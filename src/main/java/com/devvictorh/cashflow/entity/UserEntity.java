@@ -8,28 +8,31 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(mappedBy = "user")
-    private List<Category> categories;
+    private List<CategoryEntity> categories;
 
     @OneToMany(mappedBy = "user")
-    private List<Money> moneyList;
+    private List<IncomeEntity> incomeEntityList;
 
     @OneToMany(mappedBy = "user")
-    private List<Expanse> expanses;
+    private List<ExpanseEntity> expans;
 
     @OneToMany(mappedBy = "user")
-    private List<Goal> goals;
+    private List<GoalEntity> goalEntities;
 
 }

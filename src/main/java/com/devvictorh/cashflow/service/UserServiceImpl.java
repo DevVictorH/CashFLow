@@ -2,7 +2,7 @@ package com.devvictorh.cashflow.service;
 
 import com.devvictorh.cashflow.dto.UserRequestDTO;
 import com.devvictorh.cashflow.dto.UserResponseDTO;
-import com.devvictorh.cashflow.entity.User;
+import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.service.mapper.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,16 +19,16 @@ public class UserServiceImpl implements UserService{
     private final UserMapper mapper;
 
     @Override
-    public User salvar(UserRequestDTO dto) {
-        User user = mapper.toEntity(dto);
-        return repository.save(user);
+    public UserEntity salvar(UserRequestDTO dto) {
+        UserEntity userEntity = mapper.toEntity(dto);
+        return repository.save(userEntity);
     }
 
     @Override
-    public User atualizar(Long id, UserRequestDTO user) {
+    public UserEntity atualizar(Long id, UserRequestDTO user) {
         var userExistente= repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
 
-        User usuario = mapper.toEntity(user);
+        UserEntity usuario = mapper.toEntity(user);
 
         userExistente.setId(id);
         userExistente.setName(usuario.getName());

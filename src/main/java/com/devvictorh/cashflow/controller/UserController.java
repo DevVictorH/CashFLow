@@ -2,7 +2,6 @@ package com.devvictorh.cashflow.controller;
 
 import com.devvictorh.cashflow.dto.UserRequestDTO;
 import com.devvictorh.cashflow.dto.UserResponseDTO;
-import com.devvictorh.cashflow.entity.User;
 import com.devvictorh.cashflow.service.UserServiceImpl;
 import com.devvictorh.cashflow.service.mapper.UserMapper;
 import lombok.AllArgsConstructor;
