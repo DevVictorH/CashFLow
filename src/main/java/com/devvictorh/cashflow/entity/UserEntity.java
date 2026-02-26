@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "tb_users")
 @Data
 public class UserEntity {
 
@@ -23,16 +23,16 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "userEntity")
     private List<CategoryEntity> categories;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "userEntity")
     private List<IncomeEntity> incomeEntityList;
 
-    @OneToMany(mappedBy = "user")
-    private List<ExpanseEntity> expans;
+    @OneToMany(mappedBy = "userEntity")
+    private List<ExpenseEntity> expans;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "userEntity")
     private List<GoalEntity> goalEntities;
 
 }

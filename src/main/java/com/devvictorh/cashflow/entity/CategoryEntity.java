@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 @Entity
-@Table(name = "category")
+@Table(name = "tb_categories")
 @Data
 public class CategoryEntity {
 
@@ -15,22 +15,23 @@ public class CategoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
     private CategoryType type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "categoryEntity")
     private List<IncomeEntity> incomeEntityList;
 
-    @OneToMany(mappedBy = "category")
-    private List<ExpanseEntity> expans;
+    @OneToMany(mappedBy = "categoryEntity")
+    private List<ExpenseEntity> expenses;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "categoryEntity")
     private List<GoalEntity> goalEntities;
 
 }
