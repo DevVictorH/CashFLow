@@ -2,7 +2,7 @@ package com.devvictorh.cashflow.controller;
 
 import com.devvictorh.cashflow.dto.UserRequestDTO;
 import com.devvictorh.cashflow.dto.UserResponseDTO;
-import com.devvictorh.cashflow.service.UserServiceImpl;
+import com.devvictorh.cashflow.service.UserService;
 import com.devvictorh.cashflow.service.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/api/users")
 @AllArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl service;
+    private final UserService service;
     private final UserMapper mapper;
 
     @PostMapping

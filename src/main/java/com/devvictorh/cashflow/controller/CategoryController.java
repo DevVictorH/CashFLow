@@ -19,14 +19,14 @@ public class CategoryController {
     // Estou usando o pathVariable por enquanto pois o User será passado pelo token e não tenho token ainda.
     @PostMapping("{userId}")
     public ResponseEntity<Void> save(@PathVariable Long userId, @RequestBody CategoryRequestDTO dto){
-        service.createCategory(dto, userId);
+        service.createCategory(userId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody CategoryRequestDTO dto, @RequestBody UserEntity entity){
+    public ResponseEntity<Void> update(@PathVariable Long userId, @RequestBody CategoryRequestDTO dto){
         try {
-            service.updateCategory(id, dto, entity);
+            service.updateCategory(userId, dto);
             return ResponseEntity.noContent().build();
         }catch (ObjectNotFoundException e){
             return ResponseEntity.notFound().build();
