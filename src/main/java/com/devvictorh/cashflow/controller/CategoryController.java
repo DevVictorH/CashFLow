@@ -1,13 +1,15 @@
 package com.devvictorh.cashflow.controller;
 
 import com.devvictorh.cashflow.dto.CategoryRequestDTO;
-import com.devvictorh.cashflow.entity.UserEntity;
+import com.devvictorh.cashflow.dto.CategoryResponseDTO;
 import com.devvictorh.cashflow.exceptions.ObjectNotFoundException;
 import com.devvictorh.cashflow.service.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/categories")
@@ -23,11 +25,21 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping("{id}")
+    @PutMapping("{userId}")
     public ResponseEntity<Void> update(@PathVariable Long userId, @RequestBody CategoryRequestDTO dto){
         try {
             service.updateCategory(userId, dto);
             return ResponseEntity.noContent().build();
+        }catch (ObjectNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("{userId}")
+    public ResponseEntity<List<CategoryResponseDTO>> list(@PathVariable Long userId){
+        try {
+            List<CategoryResponseDTO> list = service.listAllCategories(userId);
+            return ResponseEntity.ok(list);
         }catch (ObjectNotFoundException e){
             return ResponseEntity.notFound().build();
         }

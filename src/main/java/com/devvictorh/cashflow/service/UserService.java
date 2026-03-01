@@ -18,12 +18,12 @@ public class UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
 
-    public UserEntity salvar(UserRequestDTO dto) {
+    public UserEntity saveUser(UserRequestDTO dto) {
         UserEntity userEntity = mapper.toEntity(dto);
         return repository.save(userEntity);
     }
 
-    public UserEntity atualizar(Long id, UserRequestDTO user) {
+    public UserEntity updateUser(Long id, UserRequestDTO user) {
         var userExistente= repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
 
         UserEntity usuario = mapper.toEntity(user);
@@ -36,17 +36,17 @@ public class UserService {
         return repository.save(userExistente);
     }
 
-    public void deletar(Long id) {
+    public void deleteUser(Long id) {
         var userExistente = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
 
-        repository.deleteById(id);
+        repository.delete(userExistente);
     }
 
-    public List<UserResponseDTO> listar() {
+    public List<UserResponseDTO> listAllUsers() {
         return repository.findAll().stream().map(mapper::toResponse).toList();
     }
 
-    public UserResponseDTO buscarPorId(Long id) {
+    public UserResponseDTO findById(Long id) {
         var userExistente = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
 
         return mapper.toResponse(userExistente);

@@ -20,32 +20,32 @@ public class UserController {
     private final UserMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Void> salvar(@RequestBody UserRequestDTO dto){
-        service.salvar(dto);
+    public ResponseEntity<Void> save(@RequestBody UserRequestDTO dto){
+        service.saveUser(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
    @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> listar(){
-        return ResponseEntity.ok(service.listar());
+    public ResponseEntity<List<UserResponseDTO>> listAll(){
+        return ResponseEntity.ok(service.listAllUsers());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UserResponseDTO> buscarPorId(@PathVariable Long id){
-        var usuarioEncontrado = service.buscarPorId(id);
+    public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id){
+        var usuarioEncontrado = service.findById(id);
 
         return ResponseEntity.ok(usuarioEncontrado);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody UserRequestDTO dto){
-        service.atualizar(id, dto);
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody UserRequestDTO dto){
+        service.updateUser(id, dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id){
-        service.deletar(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        service.deleteUser(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

@@ -1,6 +1,8 @@
 package com.devvictorh.cashflow.service;
 
 import com.devvictorh.cashflow.dto.CategoryRequestDTO;
+import com.devvictorh.cashflow.dto.CategoryResponseDTO;
+import com.devvictorh.cashflow.entity.CategoryEntity;
 import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.exceptions.ObjectNotFoundException;
 import com.devvictorh.cashflow.repository.CategoryRepository;
@@ -9,6 +11,8 @@ import com.devvictorh.cashflow.service.mapper.CategoryMapper;
 import com.devvictorh.cashflow.validator.CategoryValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -40,6 +44,14 @@ public class CategoryService {
         var mappedCategory = mapper.toEntity(dto);
         mappedCategory.setUserEntity(user);
         repository.save(mappedCategory);
+    }
+
+    public List<CategoryResponseDTO> listAllCategories(Long userId){
+        var user = userRepository.findById(userId)
+                .orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
+
+        var list = repository.findByUserEntity(user);
+        return mapper.toResponseList(list);
     }
 
     public void deleteCategory(Long id) {

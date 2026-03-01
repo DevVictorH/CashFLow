@@ -1,14 +1,12 @@
 package com.devvictorh.cashflow.repository;
 
 import com.devvictorh.cashflow.entity.ExpenseEntity;
-import com.devvictorh.cashflow.entity.IncomeEntity;
 import com.devvictorh.cashflow.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface IncomeRepository extends JpaRepository<IncomeEntity, Long> {
+public interface ExpenseRepository extends JpaRepository<ExpenseEntity, Long> {
 
-    List<IncomeEntity> findByUserEntity(UserEntity user);
-
+    List<ExpenseEntity> findByUserEntity(UserEntity user);
 }
