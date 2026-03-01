@@ -4,6 +4,7 @@ import com.devvictorh.cashflow.dto.ExpenseRequestDTO;
 import com.devvictorh.cashflow.dto.ExpenseResponseDTO;
 import com.devvictorh.cashflow.exceptions.ObjectNotFoundException;
 import com.devvictorh.cashflow.service.ExpenseService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/expenses")
+@RequestMapping("/api/users/{userId}/expenses")
 @AllArgsConstructor
 public class ExpenseController {
 
     private final ExpenseService service;
 
-    @PostMapping("/{userId}")
-    public ResponseEntity<Void> create(@PathVariable Long userId, @RequestBody ExpenseRequestDTO dto){
+    @PostMapping
+    public ResponseEntity<Void> create(@PathVariable Long userId, @RequestBody @Valid ExpenseRequestDTO dto){
         try {
             service.createExpense(userId, dto.categoryId(), dto);
             return ResponseEntity.noContent().build();
@@ -27,7 +28,7 @@ public class ExpenseController {
         }
     }
 
-    @GetMapping("{userId}")
+    @GetMapping
     public ResponseEntity<List<ExpenseResponseDTO>> list(@PathVariable Long userId){
         try {
             List<ExpenseResponseDTO> list = service.listAllExpense(userId);
@@ -37,7 +38,7 @@ public class ExpenseController {
         }
     }
 
-    @DeleteMapping("{userId}/{expenseId}")
+    @DeleteMapping("/{expenseId}")
     public ResponseEntity<Void> delete(@PathVariable Long userId, @PathVariable Long expenseId) {
         try {
             service.deleteExpense(userId, expenseId);

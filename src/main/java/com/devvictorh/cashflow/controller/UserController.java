@@ -4,6 +4,7 @@ import com.devvictorh.cashflow.dto.UserRequestDTO;
 import com.devvictorh.cashflow.dto.UserResponseDTO;
 import com.devvictorh.cashflow.service.UserService;
 import com.devvictorh.cashflow.service.mapper.UserMapper;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/{userId}/users")
 @AllArgsConstructor
 public class UserController {
 
@@ -20,7 +21,7 @@ public class UserController {
     private final UserMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody UserRequestDTO dto){
+    public ResponseEntity<Void> save(@RequestBody @Valid UserRequestDTO dto){
         service.saveUser(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -30,21 +31,21 @@ public class UserController {
         return ResponseEntity.ok(service.listAllUsers());
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id){
-        var usuarioEncontrado = service.findById(id);
+    @GetMapping
+    public ResponseEntity<UserResponseDTO> findById(@PathVariable Long userId){
+        var usuarioEncontrado = service.findById(userId);
         return ResponseEntity.ok(usuarioEncontrado);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody UserRequestDTO dto){
-        service.updateUser(id, dto);
+    @PutMapping
+    public ResponseEntity<Void> update(@PathVariable Long userId, @RequestBody @Valid UserRequestDTO dto){
+        service.updateUser(userId, dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
-        service.deleteUser(id);
+    @DeleteMapping
+    public ResponseEntity<Void> delete(@PathVariable Long userId){
+        service.deleteUser(userId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

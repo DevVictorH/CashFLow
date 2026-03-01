@@ -5,11 +5,13 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 @Table(name = "tb_goals")
+@EntityListeners(AutoCloseable.class)
 @Data
 public class GoalEntity {
 
@@ -19,8 +21,10 @@ public class GoalEntity {
 
     private String description;
 
-    private double amount;
+    @Column(precision = 12, scale = 2)
+    private BigDecimal amount;
 
+    @Column(updatable = false)
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
