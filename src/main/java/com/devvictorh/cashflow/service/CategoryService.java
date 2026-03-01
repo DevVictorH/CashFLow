@@ -2,8 +2,6 @@ package com.devvictorh.cashflow.service;
 
 import com.devvictorh.cashflow.dto.CategoryRequestDTO;
 import com.devvictorh.cashflow.dto.CategoryResponseDTO;
-import com.devvictorh.cashflow.entity.CategoryEntity;
-import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.exceptions.ObjectNotFoundException;
 import com.devvictorh.cashflow.repository.CategoryRepository;
 import com.devvictorh.cashflow.repository.UserRepository;

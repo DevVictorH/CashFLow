@@ -1,10 +1,7 @@
 package com.devvictorh.cashflow.service;
 
 import com.devvictorh.cashflow.dto.ExpenseRequestDTO;
-import com.devvictorh.cashflow.entity.CategoryEntity;
-import com.devvictorh.cashflow.entity.ExpenseEntity;
-import com.devvictorh.cashflow.entity.UserEntity;
-import com.devvictorh.cashflow.entity.enums.CategoryType;
+import com.devvictorh.cashflow.dto.ExpenseResponseDTO;
 import com.devvictorh.cashflow.exceptions.BusinessException;
 import com.devvictorh.cashflow.exceptions.ObjectNotFoundException;
 import com.devvictorh.cashflow.repository.CategoryRepository;
@@ -41,11 +38,12 @@ public class ExpenseService {
         repository.save(mappedExpense);
     }
 
-    public List<ExpenseEntity> listAllExpense(Long userId){
+    public List<ExpenseResponseDTO> listAllExpense(Long userId){
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
 
-        return repository.findByUserEntity(user);
+        var list = repository.findByUserEntity(user);
+        return mapper.toResponseList(list);
     }
 
     public void deleteExpense(Long userId, Long expenseId){

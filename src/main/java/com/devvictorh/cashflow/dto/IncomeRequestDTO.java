@@ -1,4 +1,4 @@
 package com.devvictorh.cashflow.dto;
 
-public record IncomeRequestDTO(String description, double amount) {
+public record IncomeRequestDTO(String description, double amount,Long categoryId) {
 }

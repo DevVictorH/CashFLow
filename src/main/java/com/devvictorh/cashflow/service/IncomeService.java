@@ -1,10 +1,7 @@
 package com.devvictorh.cashflow.service;
 
 import com.devvictorh.cashflow.dto.IncomeRequestDTO;
-import com.devvictorh.cashflow.entity.ExpenseEntity;
-import com.devvictorh.cashflow.entity.IncomeEntity;
-import com.devvictorh.cashflow.entity.UserEntity;
-import com.devvictorh.cashflow.entity.enums.CategoryType;
+import com.devvictorh.cashflow.dto.IncomeResponseDTO;
 import com.devvictorh.cashflow.exceptions.BusinessException;
 import com.devvictorh.cashflow.exceptions.ObjectNotFoundException;
 import com.devvictorh.cashflow.repository.CategoryRepository;
@@ -40,11 +37,12 @@ public class IncomeService {
         repository.save(mappedIncome);
     }
 
-    public List<IncomeEntity> listAllIncome(Long userId){
+    public List<IncomeResponseDTO> listAllIncome(Long userId){
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
 
-        return repository.findByUserEntity(user);
+        var list = repository.findByUserEntity(user);
+        return mapper.toResponseList(list);
     }
 
     public void deleteIncome(Long userId, Long incomeId){

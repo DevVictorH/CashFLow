@@ -33,7 +33,6 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id){
         var usuarioEncontrado = service.findById(id);
-
         return ResponseEntity.ok(usuarioEncontrado);
     }
 
