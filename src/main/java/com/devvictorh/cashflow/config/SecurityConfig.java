@@ -26,10 +26,15 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/api/auth/**").permitAll();
-                    authorize.anyRequest().authenticated();
-                })
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/users/**").authenticated()
+                        .requestMatchers("/api/categories/**").authenticated()
+                        .requestMatchers("/api/income/**").authenticated()
+                        .requestMatchers("/api/expenses/**").authenticated()
+                        .requestMatchers("/api/goals/**").authenticated()
+                        .anyRequest().authenticated()
+                )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

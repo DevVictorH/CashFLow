@@ -37,7 +37,7 @@ public class UserEntity implements UserDetails {
     private List<IncomeEntity> incomeEntityList;
 
     @OneToMany(mappedBy = "userEntity")
-    private List<ExpenseEntity> expans;
+    private List<ExpenseEntity> expens;
 
     @OneToMany(mappedBy = "userEntity")
     private List<GoalEntity> goalEntities;

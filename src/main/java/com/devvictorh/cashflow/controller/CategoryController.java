@@ -2,18 +2,21 @@ package com.devvictorh.cashflow.controller;
 
 import com.devvictorh.cashflow.dto.request.CategoryRequestDTO;
 import com.devvictorh.cashflow.dto.response.CategoryResponseDTO;
+import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.exceptions.ObjectNotFoundException;
 import com.devvictorh.cashflow.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users/{userId}/categories")
+@RequestMapping("/api/categories")
 @AllArgsConstructor
 public class CategoryController {
 
@@ -21,15 +24,21 @@ public class CategoryController {
 
     // Estou usando o pathVariable por enquanto pois o User será passado pelo token e não tenho token ainda.
     @PostMapping
-    public ResponseEntity<Void> save(@PathVariable Long userId, @RequestBody @Valid CategoryRequestDTO dto){
-        service.createCategory(userId, dto);
+    public ResponseEntity<Void> save(@RequestBody @Valid CategoryRequestDTO dto){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = (UserEntity) auth.getPrincipal();
+
+        service.createCategory(user.getId(), dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@PathVariable Long userId, @RequestBody @Valid CategoryRequestDTO dto){
+    public ResponseEntity<Void> update(@RequestBody @Valid CategoryRequestDTO dto){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = (UserEntity) auth.getPrincipal();
+
         try {
-            service.updateCategory(userId, dto);
+            service.updateCategory(user.getId(), dto);
             return ResponseEntity.noContent().build();
         }catch (ObjectNotFoundException e){
             return ResponseEntity.notFound().build();
@@ -37,9 +46,12 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponseDTO>> list(@PathVariable Long userId){
+    public ResponseEntity<List<CategoryResponseDTO>> list(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = (UserEntity) auth.getPrincipal();
+
         try {
-            List<CategoryResponseDTO> list = service.listAllCategories(userId);
+            List<CategoryResponseDTO> list = service.listAllCategories(user.getId());
             return ResponseEntity.ok(list);
         }catch (ObjectNotFoundException e){
             return ResponseEntity.notFound().build();
@@ -47,9 +59,12 @@ public class CategoryController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@PathVariable Long userId) {
+    public ResponseEntity<Void> delete() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = (UserEntity) auth.getPrincipal();
+
         try {
-            service.deleteCategory(userId);
+            service.deleteCategory(user.getId());
             return ResponseEntity.noContent().build();
         } catch (ObjectNotFoundException e) {
             return ResponseEntity.notFound().build();

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("/api/auth")
 @AllArgsConstructor
 public class AuthController {
 
@@ -28,7 +28,7 @@ public class AuthController {
     private final UserService service;
     private final TokenService tokenService;
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationRequestDTO dto){
         var emailAndPassword = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
         var auth = this.authenticationManager.authenticate(emailAndPassword);
@@ -38,7 +38,7 @@ public class AuthController {
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody UserRequestDTO dto){
         if(repository.findByEmail(dto.email()) != null){
             return ResponseEntity.badRequest().build();
