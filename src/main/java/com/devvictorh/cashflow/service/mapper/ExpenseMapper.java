@@ -1,8 +1,7 @@
 package com.devvictorh.cashflow.service.mapper;
 
-import com.devvictorh.cashflow.dto.CategoryResponseDTO;
-import com.devvictorh.cashflow.dto.ExpenseRequestDTO;
-import com.devvictorh.cashflow.dto.ExpenseResponseDTO;
+import com.devvictorh.cashflow.dto.request.ExpenseRequestDTO;
+import com.devvictorh.cashflow.dto.response.ExpenseResponseDTO;
 import com.devvictorh.cashflow.entity.ExpenseEntity;
 import org.mapstruct.Mapper;
 

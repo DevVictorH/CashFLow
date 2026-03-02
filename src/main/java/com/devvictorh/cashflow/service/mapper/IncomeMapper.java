@@ -1,7 +1,7 @@
 package com.devvictorh.cashflow.service.mapper;
 
-import com.devvictorh.cashflow.dto.IncomeRequestDTO;
-import com.devvictorh.cashflow.dto.IncomeResponseDTO;
+import com.devvictorh.cashflow.dto.request.IncomeRequestDTO;
+import com.devvictorh.cashflow.dto.response.IncomeResponseDTO;
 import com.devvictorh.cashflow.entity.IncomeEntity;
 import org.mapstruct.Mapper;
 

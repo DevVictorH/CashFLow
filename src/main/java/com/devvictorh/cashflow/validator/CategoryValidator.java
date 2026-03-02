@@ -1,6 +1,6 @@
 package com.devvictorh.cashflow.validator;
 
-import com.devvictorh.cashflow.dto.CategoryRequestDTO;
+import com.devvictorh.cashflow.dto.request.CategoryRequestDTO;
 import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.exceptions.BusinessException;
 import com.devvictorh.cashflow.repository.CategoryRepository;

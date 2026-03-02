@@ -1,4 +1,4 @@
-package com.devvictorh.cashflow.dto;
+package com.devvictorh.cashflow.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,5 +9,6 @@ public record UserRequestDTO(
         @Email(message = "Email invalido")
         String email,
         @NotBlank(message = "Campo obrigatorio")
-        String password) {
+        String password,
+        String role) {
 }

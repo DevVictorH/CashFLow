@@ -1,7 +1,7 @@
 package com.devvictorh.cashflow.controller;
 
-import com.devvictorh.cashflow.dto.UserRequestDTO;
-import com.devvictorh.cashflow.dto.UserResponseDTO;
+import com.devvictorh.cashflow.dto.request.UserRequestDTO;
+import com.devvictorh.cashflow.dto.response.UserResponseDTO;
 import com.devvictorh.cashflow.service.UserService;
 import com.devvictorh.cashflow.service.mapper.UserMapper;
 import jakarta.validation.Valid;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/{userId}/users")
+@RequestMapping("/api/users")
 @AllArgsConstructor
 public class UserController {
 
@@ -31,19 +31,19 @@ public class UserController {
         return ResponseEntity.ok(service.listAllUsers());
     }
 
-    @GetMapping
+    @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDTO> findById(@PathVariable Long userId){
         var usuarioEncontrado = service.findById(userId);
         return ResponseEntity.ok(usuarioEncontrado);
     }
 
-    @PutMapping
+    @PutMapping("/{userId}")
     public ResponseEntity<Void> update(@PathVariable Long userId, @RequestBody @Valid UserRequestDTO dto){
         service.updateUser(userId, dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{userId}")
     public ResponseEntity<Void> delete(@PathVariable Long userId){
         service.deleteUser(userId);
         return ResponseEntity.status(HttpStatus.OK).build();

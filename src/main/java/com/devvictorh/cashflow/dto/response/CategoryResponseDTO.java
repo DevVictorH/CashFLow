@@ -1,4 +1,4 @@
-package com.devvictorh.cashflow.dto;
+package com.devvictorh.cashflow.dto.response;
 
 import com.devvictorh.cashflow.entity.enums.CategoryType;
 

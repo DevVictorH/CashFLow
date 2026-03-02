@@ -1,4 +1,4 @@
-package com.devvictorh.cashflow.dto;
+package com.devvictorh.cashflow.dto.request;
 
 import com.devvictorh.cashflow.entity.enums.CategoryType;
 import jakarta.validation.constraints.NotBlank;

@@ -1,7 +1,7 @@
 package com.devvictorh.cashflow.controller;
 
-import com.devvictorh.cashflow.dto.CategoryRequestDTO;
-import com.devvictorh.cashflow.dto.CategoryResponseDTO;
+import com.devvictorh.cashflow.dto.request.CategoryRequestDTO;
+import com.devvictorh.cashflow.dto.response.CategoryResponseDTO;
 import com.devvictorh.cashflow.exceptions.ObjectNotFoundException;
 import com.devvictorh.cashflow.service.CategoryService;
 import jakarta.validation.Valid;

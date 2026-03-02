@@ -1,4 +1,4 @@
-package com.devvictorh.cashflow.dto;
+package com.devvictorh.cashflow.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

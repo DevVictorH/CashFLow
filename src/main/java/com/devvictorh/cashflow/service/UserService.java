@@ -1,12 +1,13 @@
 package com.devvictorh.cashflow.service;
 
-import com.devvictorh.cashflow.dto.UserRequestDTO;
-import com.devvictorh.cashflow.dto.UserResponseDTO;
+import com.devvictorh.cashflow.dto.request.UserRequestDTO;
+import com.devvictorh.cashflow.dto.response.UserResponseDTO;
 import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.service.mapper.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +18,11 @@ public class UserService {
 
     private final UserRepository repository;
     private final UserMapper mapper;
+    private final PasswordEncoder encoder;
 
     public UserEntity saveUser(UserRequestDTO dto) {
         UserEntity userEntity = mapper.toEntity(dto);
+        userEntity.setPassword(encoder.encode(userEntity.getPassword()));
         return repository.save(userEntity);
     }
 
@@ -31,7 +34,7 @@ public class UserService {
         userExistente.setId(id);
         userExistente.setName(usuario.getName());
         userExistente.setEmail(usuario.getEmail());
-        userExistente.setPassword(usuario.getPassword());
+        userExistente.setPassword(encoder.encode(usuario.getPassword()));
 
         return repository.save(userExistente);
     }
