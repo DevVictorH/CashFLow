@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class ExpenseValidator {
 
     public void validar(UserEntity user, CategoryEntity category){
-        if(category.getType() != CategoryType.INCOME){
+        if(category.getType() != CategoryType.EXPENSE){
             throw new BusinessException("Categoria invalida para despesa");
         }
 

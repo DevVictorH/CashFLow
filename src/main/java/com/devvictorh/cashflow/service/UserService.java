@@ -20,8 +20,8 @@ public class UserService {
     private final UserMapper mapper;
     private final PasswordEncoder encoder;
 
-    public UserEntity saveUser(UserRequestDTO dto) {
-        UserEntity userEntity = mapper.toEntity(dto);
+    public UserEntity saveUser(UserRequestDTO user) {
+        UserEntity userEntity = mapper.toEntity(user);
         userEntity.setPassword(encoder.encode(userEntity.getPassword()));
         return repository.save(userEntity);
     }
