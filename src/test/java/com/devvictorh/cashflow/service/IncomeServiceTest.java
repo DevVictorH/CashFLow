@@ -57,8 +57,8 @@ class IncomeServiceTest {
 
     @BeforeEach
     void setUp(){
-        incomeRequestDTO = new IncomeRequestDTO("Comida", BigDecimal.valueOf(50),1L);
-        incomeResponseDTO = new IncomeResponseDTO(1L, "Comida",BigDecimal.valueOf(50));
+        incomeRequestDTO = new IncomeRequestDTO("adiantamento", BigDecimal.valueOf(50),1L);
+        incomeResponseDTO = new IncomeResponseDTO(1L, "adiantamento",BigDecimal.valueOf(50));
 
         user = new UserEntity();
         user.setId(1L);
@@ -68,7 +68,7 @@ class IncomeServiceTest {
 
         categoryEntity = new CategoryEntity();
         categoryEntity.setId(1L);
-        categoryEntity.setName("Alimentacao");
+        categoryEntity.setName("Salario");
         categoryEntity.setType(CategoryType.INCOME);
         categoryEntity.setUserEntity(user);
 
@@ -77,7 +77,7 @@ class IncomeServiceTest {
         incomeEntity.setCategoryEntity(categoryEntity);
         incomeEntity.setUserEntity(user);
         incomeEntity.setAmount(BigDecimal.valueOf(50));
-        incomeEntity.setDescription("Comida");
+        incomeEntity.setDescription("adiantamento");
     }
 
     @Test
@@ -110,7 +110,7 @@ class IncomeServiceTest {
 
         Assertions.assertNotNull(list);
         Assertions.assertEquals(1, list.size());
-        Assertions.assertEquals("Comida", list.get(0).description());
+        Assertions.assertEquals("adiantamento", list.get(0).description());
     }
 
     @Test

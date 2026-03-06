@@ -1,4 +1,6 @@
 package com.devvictorh.cashflow.dto.response;
 
-public record ExpenseResponseDTO(Long id, String description, double amount) {
+import java.math.BigDecimal;
+
+public record ExpenseResponseDTO(Long id, String description, BigDecimal amount) {
 }
