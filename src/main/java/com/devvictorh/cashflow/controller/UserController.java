@@ -19,7 +19,6 @@ import java.util.List;
 public class UserController {
 
     private final UserService service;
-    private final UserMapper mapper;
 
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody @Valid UserRequestDTO dto){
@@ -42,9 +41,9 @@ public class UserController {
 
     @PutMapping("/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> update(@PathVariable Long userId, @RequestBody @Valid UserRequestDTO dto){
-        service.updateUser(userId, dto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<UserResponseDTO> update(@PathVariable Long userId, @RequestBody @Valid UserRequestDTO dto){
+        var savedUser = service.updateUser(userId, dto);
+        return ResponseEntity.ok(savedUser);
     }
 
     @DeleteMapping("/{userId}")

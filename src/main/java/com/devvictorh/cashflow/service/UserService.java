@@ -26,7 +26,7 @@ public class UserService {
         return repository.save(userEntity);
     }
 
-    public UserEntity updateUser(Long id, UserRequestDTO user) {
+    public UserResponseDTO updateUser(Long id, UserRequestDTO user) {
         var userExistente= repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
 
         UserEntity usuario = mapper.toEntity(user);
@@ -36,7 +36,8 @@ public class UserService {
         userExistente.setEmail(usuario.getEmail());
         userExistente.setPassword(encoder.encode(usuario.getPassword()));
 
-        return repository.save(userExistente);
+        repository.save(userExistente);
+        return mapper.toResponse(userExistente);
     }
 
     public void deleteUser(Long id) {

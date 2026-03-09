@@ -74,11 +74,12 @@ class UserServiceTest {
         Mockito.when(userRepository.save(Mockito.any())).thenReturn(entity);
         Mockito.when(mapper.toEntity(Mockito.any())).thenReturn(entity);
         Mockito.when(encoder.encode(Mockito.anyString())).thenReturn("senhaCriptografada");
+        Mockito.when(mapper.toResponse(Mockito.any())).thenReturn(userResponseDTO);
 
         var savedUser = userService.updateUser(1L, user);
 
         Assertions.assertNotNull(savedUser);
-        Assertions.assertEquals("Victor",savedUser.getName());
+        Assertions.assertEquals("Victor",userResponseDTO.name());
         Mockito.verify(userRepository).save(Mockito.any());
     }
 
