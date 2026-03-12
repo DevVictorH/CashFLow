@@ -4,10 +4,12 @@ import com.devvictorh.cashflow.dto.request.UserRequestDTO;
 import com.devvictorh.cashflow.dto.response.UserResponseDTO;
 import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.entity.enums.UserRole;
+import com.devvictorh.cashflow.exceptions.ObjectNotFoundException;
 import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.security.TokenService;
 import com.devvictorh.cashflow.service.UserService;
 import com.devvictorh.cashflow.service.mapper.UserMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -64,7 +66,7 @@ class UserControllerTest {
     }
 
     @Test
-    void save() throws Exception{
+    void shouldSave() throws Exception{
         Mockito.when(service.saveUser(Mockito.any())).thenReturn(user);
 
         String json = """
@@ -85,7 +87,7 @@ class UserControllerTest {
     }
 
     @Test
-    void listAll() throws Exception{
+    void shouldListAll() throws Exception{
         Mockito.when(mapper.toResponse(user)).thenReturn(response);
         Mockito.when(service.listAllUsers()).thenReturn(List.of(response));
 
@@ -98,7 +100,7 @@ class UserControllerTest {
     }
 
     @Test
-    void findById() throws Exception{
+    void shouldFindById() throws Exception{
         Mockito.when(service.findById(1L)).thenReturn(response);
         Mockito.when(mapper.toResponse(Mockito.any())).thenReturn(response);
 
@@ -106,6 +108,15 @@ class UserControllerTest {
                 get("/api/users/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
+    }
+
+    @Test
+    void shouldThrowErrorWhenFindById() throws Exception{
+        Mockito.when(service.findById(Mockito.any())).thenThrow(EntityNotFoundException.class);
+
+        mvc.perform(
+                get("/api/users/5")
+        ).andExpect(status().isNotFound());
     }
 
     @Test
@@ -142,5 +153,14 @@ class UserControllerTest {
                 MockMvcRequestBuilders.delete("/api/users/1"))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    void shouldThrowErrorWhenDelete() throws Exception {
+        Mockito.doThrow(EntityNotFoundException.class).when(service).deleteUser(Mockito.any());
+
+        mvc.perform(
+                MockMvcRequestBuilders.delete("/api/users/5")
+        ).andExpect(status().isNotFound());
     }
 }
