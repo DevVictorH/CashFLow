@@ -1,19 +1,17 @@
 package com.devvictorh.cashflow.controller;
 
-import com.devvictorh.cashflow.dto.request.IncomeRequestDTO;
-import com.devvictorh.cashflow.dto.response.IncomeResponseDTO;
+import com.devvictorh.cashflow.dto.request.ExpenseRequestDTO;
+import com.devvictorh.cashflow.dto.response.ExpenseResponseDTO;
 import com.devvictorh.cashflow.entity.CategoryEntity;
-import com.devvictorh.cashflow.entity.IncomeEntity;
+import com.devvictorh.cashflow.entity.ExpenseEntity;
 import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.entity.enums.CategoryType;
 import com.devvictorh.cashflow.entity.enums.UserRole;
 import com.devvictorh.cashflow.exceptions.ObjectNotFoundException;
-import com.devvictorh.cashflow.repository.CategoryRepository;
+import com.devvictorh.cashflow.repository.ExpenseRepository;
 import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.security.TokenService;
-import com.devvictorh.cashflow.service.IncomeService;
-import com.devvictorh.cashflow.service.mapper.IncomeMapper;
-import com.devvictorh.cashflow.service.mapper.UserMapper;
+import com.devvictorh.cashflow.service.ExpenseService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,86 +19,83 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(IncomeController.class)
+@WebMvcTest(ExpenseController.class)
 @AutoConfigureMockMvc
-class IncomeControllerTest {
+class ExpenseControllerTest {
 
-
-    IncomeRequestDTO incomeRequestDTO;
-    IncomeResponseDTO incomeResponseDTO;
-    IncomeEntity incomeEntity;
+    ExpenseEntity expenseEntity;
+    ExpenseRequestDTO expenseRequestDTO;
+    ExpenseResponseDTO expenseResponseDTO;
     UserEntity user;
     CategoryEntity categoryEntity;
 
     @Autowired
     MockMvc mvc;
 
-    @Autowired
-    ObjectMapper objectMapper;
+    @MockitoBean
+    ExpenseRepository expenseRepository;
 
     @MockitoBean
-    IncomeService service;
+    ExpenseService service;
 
     @MockitoBean
     TokenService tokenService;
 
-    @MockitoBean
-    IncomeMapper mapper;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @MockitoBean
     UserRepository userRepository;
 
     @BeforeEach
     void setUp(){
-        incomeRequestDTO = new IncomeRequestDTO("adiantamento", BigDecimal.valueOf(50),1L);
-        incomeResponseDTO = new IncomeResponseDTO(1L, "adiantamento",BigDecimal.valueOf(50));
+        expenseRequestDTO= new ExpenseRequestDTO("Comida", BigDecimal.valueOf(50),1L);
+        expenseResponseDTO = new ExpenseResponseDTO(1L, "Comida",BigDecimal.valueOf(50));
 
         user = new UserEntity();
         user.setId(1L);
         user.setName("Victor");
         user.setEmail("victor@gmail.com");
         user.setPassword("123");
-        user.setRole(UserRole.ADMIN);
+        user.setRole(UserRole.USER);
 
         categoryEntity = new CategoryEntity();
         categoryEntity.setId(1L);
-        categoryEntity.setName("Salario");
-        categoryEntity.setType(CategoryType.INCOME);
+        categoryEntity.setName("Alimentacao");
+        categoryEntity.setType(CategoryType.EXPENSE);
         categoryEntity.setUserEntity(user);
 
-        incomeEntity = new IncomeEntity();
-        incomeEntity.setId(1L);
-        incomeEntity.setCategoryEntity(categoryEntity);
-        incomeEntity.setUserEntity(user);
-        incomeEntity.setAmount(BigDecimal.valueOf(50));
-        incomeEntity.setDescription("adiantamento");
+        expenseEntity = new ExpenseEntity();
+        expenseEntity.setId(1L);
+        expenseEntity.setCategoryEntity(categoryEntity);
+        expenseEntity.setUserEntity(user);
+        expenseEntity.setAmount(BigDecimal.valueOf(50));
+        expenseEntity.setDescription("Comida");
     }
 
     @Test
     void shouldCreate() throws Exception{
-        Mockito.doNothing().when(service).createIncome(Mockito.anyLong(),Mockito.anyLong(),Mockito.any());
+        Mockito.doNothing().when(service).createExpense(Mockito.anyLong(),Mockito.anyLong(),Mockito.any());
 
-        String json = objectMapper.writeValueAsString(incomeRequestDTO);
+        String json = objectMapper.writeValueAsString(expenseRequestDTO);
 
         mvc.perform(
-                MockMvcRequestBuilders.post("/api/incomes")
+                MockMvcRequestBuilders.post("/api/expenses")
                         .with(user(user))
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -110,10 +105,10 @@ class IncomeControllerTest {
 
     @Test
     void shouldList() throws Exception{
-        Mockito.when(service.listAllIncome(Mockito.any())).thenReturn(List.of(incomeResponseDTO));
+        Mockito.when(service.listAllExpense(Mockito.anyLong())).thenReturn(List.of(expenseResponseDTO));
 
         mvc.perform(
-                MockMvcRequestBuilders.get("/api/incomes")
+                MockMvcRequestBuilders.get("/api/expenses")
                         .with(user(user))
                         .with(csrf())
         ).andExpect(status().isOk());
@@ -121,10 +116,10 @@ class IncomeControllerTest {
 
     @Test
     void shouldDelete() throws Exception{
-        Mockito.doNothing().when(service).deleteIncome(Mockito.anyLong(),Mockito.anyLong());
+        Mockito.doNothing().when(service).deleteExpense(Mockito.anyLong(),Mockito.anyLong());
 
         mvc.perform(
-                MockMvcRequestBuilders.delete("/api/incomes/1")
+                MockMvcRequestBuilders.delete("/api/expenses/1")
                         .with(user(user))
                         .with(csrf())
         ).andExpect(status().isNoContent());
@@ -132,10 +127,10 @@ class IncomeControllerTest {
 
     @Test
     void shouldThrowErrorWhenDelete() throws Exception{
-        Mockito.doThrow(ObjectNotFoundException.class).when(service).deleteIncome(Mockito.anyLong(),Mockito.anyLong());
+        Mockito.doThrow(ObjectNotFoundException.class).when(service).deleteExpense(Mockito.anyLong(),Mockito.anyLong());
 
         mvc.perform(
-                MockMvcRequestBuilders.delete("/api/incomes/5")
+                MockMvcRequestBuilders.delete("/api/expenses/5")
                         .with(user(user))
                         .with(csrf())
         ).andExpect(status().isNotFound());

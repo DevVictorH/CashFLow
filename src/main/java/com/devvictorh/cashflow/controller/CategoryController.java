@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,19 +25,13 @@ public class CategoryController {
 
     // Estou usando o pathVariable por enquanto pois o User será passado pelo token e não tenho token ainda.
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody @Valid CategoryRequestDTO dto){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = (UserEntity) auth.getPrincipal();
-
+    public ResponseEntity<Void> save(@AuthenticationPrincipal UserEntity user, @RequestBody @Valid CategoryRequestDTO dto){
         service.createCategory(user.getId(), dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody @Valid CategoryRequestDTO dto){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = (UserEntity) auth.getPrincipal();
-
+    public ResponseEntity<Void> update(@AuthenticationPrincipal UserEntity user, @RequestBody @Valid CategoryRequestDTO dto){
         try {
             service.updateCategory(user.getId(), dto);
             return ResponseEntity.noContent().build();
@@ -46,10 +41,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponseDTO>> list(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = (UserEntity) auth.getPrincipal();
-
+    public ResponseEntity<List<CategoryResponseDTO>> list(@AuthenticationPrincipal UserEntity user){
         try {
             List<CategoryResponseDTO> list = service.listAllCategories(user.getId());
             return ResponseEntity.ok(list);
@@ -59,10 +51,7 @@ public class CategoryController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = (UserEntity) auth.getPrincipal();
-
+    public ResponseEntity<Void> delete(@AuthenticationPrincipal UserEntity user) {
         try {
             service.deleteCategory(user.getId());
             return ResponseEntity.noContent().build();
