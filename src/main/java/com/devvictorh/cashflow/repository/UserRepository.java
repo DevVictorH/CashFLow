@@ -2,9 +2,12 @@ package com.devvictorh.cashflow.repository;
 
 import com.devvictorh.cashflow.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     UserDetails findByEmail(String email);
+
+    boolean existsByEmail(String email);
 }

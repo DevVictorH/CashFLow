@@ -25,32 +25,20 @@ public class ExpenseController {
 
     @PostMapping
     public ResponseEntity<Void> create(@AuthenticationPrincipal UserEntity user, @RequestBody @Valid ExpenseRequestDTO dto){
-        try {
             service.createExpense(user.getId(), dto.categoryId(), dto);
             return ResponseEntity.status(HttpStatus.CREATED).build();
-        }catch (ObjectNotFoundException e){
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @GetMapping
     public ResponseEntity<List<ExpenseResponseDTO>> list(@AuthenticationPrincipal UserEntity user){
-        try {
             List<ExpenseResponseDTO> list = service.listAllExpense(user.getId());
             return ResponseEntity.ok(list);
-        }catch (ObjectNotFoundException e){
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @DeleteMapping("/{expenseId}")
     public ResponseEntity<Void> delete(@AuthenticationPrincipal UserEntity user, @PathVariable Long expenseId) {
-        try {
             service.deleteExpense(user.getId(), expenseId);
             return ResponseEntity.noContent().build();
-        } catch (ObjectNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 
 }

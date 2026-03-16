@@ -9,6 +9,7 @@ import com.devvictorh.cashflow.repository.ExpenseRepository;
 import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.service.mapper.ExpenseMapper;
 import com.devvictorh.cashflow.validator.ExpenseValidator;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class ExpenseService {
 
 
     public void createExpense(Long userId, Long categoryId, ExpenseRequestDTO dto){
-        var user = userRepository.findById(userId).orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
+        var user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
         var category = categoryRepository.findById(categoryId).orElseThrow(() -> new ObjectNotFoundException("Categoria não encontrada"));
 
         validator.validar(user, category);
@@ -40,7 +41,7 @@ public class ExpenseService {
 
     public List<ExpenseResponseDTO> listAllExpense(Long userId){
         var user = userRepository.findById(userId)
-                .orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
 
         var list = repository.findByUserEntity(user);
         return mapper.toResponseList(list);
@@ -48,7 +49,7 @@ public class ExpenseService {
 
     public void deleteExpense(Long userId, Long expenseId){
         var user = userRepository.findById(userId)
-                .orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
 
         var expenseFound = repository.findById(expenseId)
                 .orElseThrow(() -> new ObjectNotFoundException("Despesa não encontrada"));

@@ -3,6 +3,7 @@ package com.devvictorh.cashflow.service;
 import com.devvictorh.cashflow.dto.request.UserRequestDTO;
 import com.devvictorh.cashflow.dto.response.UserResponseDTO;
 import com.devvictorh.cashflow.entity.UserEntity;
+import com.devvictorh.cashflow.exceptions.BusinessException;
 import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.service.mapper.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,6 +22,9 @@ public class UserService {
     private final PasswordEncoder encoder;
 
     public UserEntity saveUser(UserRequestDTO user) {
+        if (repository.existsByEmail(user.email())){
+            throw new BusinessException("Email já cadastrado");
+        }
         UserEntity userEntity = mapper.toEntity(user);
         userEntity.setPassword(encoder.encode(userEntity.getPassword()));
         return repository.save(userEntity);

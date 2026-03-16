@@ -40,12 +40,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody UserRequestDTO dto){
-        if(repository.findByEmail(dto.email()) != null){
-            return ResponseEntity.badRequest().build();
-        }else{
             service.saveUser(dto);
             return ResponseEntity.status(HttpStatus.CREATED).build();
-        }
     }
-
 }

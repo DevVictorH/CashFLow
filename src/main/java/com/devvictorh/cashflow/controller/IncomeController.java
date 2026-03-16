@@ -23,32 +23,19 @@ public class IncomeController {
 
     @PostMapping
     public ResponseEntity<Void> create(@AuthenticationPrincipal UserEntity user, @RequestBody @Valid IncomeRequestDTO dto){
-        try {
             service.createIncome(user.getId(), dto.categoryId(), dto);
             return ResponseEntity.status(HttpStatus.CREATED).build();
-        }catch (ObjectNotFoundException e){
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @GetMapping
     public ResponseEntity<List<IncomeResponseDTO>> list(@AuthenticationPrincipal UserEntity user){
-        try {
             List<IncomeResponseDTO> list = service.listAllIncome(user.getId());
             return ResponseEntity.ok(list);
-        }catch (ObjectNotFoundException e){
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @DeleteMapping("/{expenseId}")
     public ResponseEntity<Void> delete(@AuthenticationPrincipal UserEntity user, @PathVariable Long expenseId) {
-        try {
             service.deleteIncome(user.getId(), expenseId);
             return ResponseEntity.noContent().build();
-        } catch (ObjectNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
-
 }

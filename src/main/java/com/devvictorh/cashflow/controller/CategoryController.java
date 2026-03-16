@@ -29,31 +29,19 @@ public class CategoryController {
 
     @PutMapping
     public ResponseEntity<Void> update(@AuthenticationPrincipal UserEntity user, @RequestBody @Valid CategoryRequestDTO dto){
-        try {
             service.updateCategory(user.getId(), dto);
             return ResponseEntity.noContent().build();
-        }catch (ObjectNotFoundException e){
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @GetMapping
     public ResponseEntity<List<CategoryResponseDTO>> list(@AuthenticationPrincipal UserEntity user){
-        try {
             List<CategoryResponseDTO> list = service.listAllCategories(user.getId());
             return ResponseEntity.ok(list);
-        }catch (ObjectNotFoundException e){
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @DeleteMapping
     public ResponseEntity<Void> delete(@AuthenticationPrincipal UserEntity user) {
-        try {
             service.deleteCategory(user.getId());
             return ResponseEntity.noContent().build();
-        } catch (ObjectNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 }

@@ -25,7 +25,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        var token = this.recoveyToken(request);
+        var token = this.recoveryToken(request);
         if(token != null){
             var email = tokenService.validateToken(token);
             UserDetails user = userRepository.findByEmail(email);
@@ -36,7 +36,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
-    private String recoveyToken(HttpServletRequest request){
+    private String recoveryToken(HttpServletRequest request){
         var authHeader = request.getHeader("Authorization");
         if(authHeader == null){
             return null;

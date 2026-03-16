@@ -20,7 +20,7 @@ CREATE TABLE tb_categories (
         UNIQUE (user_id, name)
 );
 
-CREATE TABLE tb_income (
+CREATE TABLE tb_incomes (
     id BIGSERIAL PRIMARY KEY,
     description VARCHAR(255),
     amount NUMERIC(12,2) NOT NULL,

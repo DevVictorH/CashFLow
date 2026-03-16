@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "tb_income")
+@Table(name = "tb_incomes")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 public class IncomeEntity {

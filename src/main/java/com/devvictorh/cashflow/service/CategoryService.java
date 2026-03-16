@@ -7,6 +7,7 @@ import com.devvictorh.cashflow.repository.CategoryRepository;
 import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.service.mapper.CategoryMapper;
 import com.devvictorh.cashflow.validator.CategoryValidator;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class CategoryService {
     private final CategoryMapper mapper;
 
     public void createCategory(Long userId, CategoryRequestDTO dto) {
-        var user = userRepository.findById(userId).orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
+        var user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
 
         validator.validar(dto);
         validator.validarCategoriaUnica(dto, user);
@@ -33,7 +34,7 @@ public class CategoryService {
     }
 
     public void updateCategory(Long userId, CategoryRequestDTO dto) {
-        var user = userRepository.findById(userId).orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
+        var user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
         var categoryFound = repository.findById(userId).orElseThrow(() -> new ObjectNotFoundException("Categoria não encontrada"));
 
         categoryFound.setName(dto.name());
@@ -46,7 +47,7 @@ public class CategoryService {
 
     public List<CategoryResponseDTO> listAllCategories(Long userId){
         var user = userRepository.findById(userId)
-                .orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
 
         var list = repository.findByUserEntity(user);
         return mapper.toResponseList(list);
