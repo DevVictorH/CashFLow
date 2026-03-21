@@ -1,6 +1,5 @@
 package com.devvictorh.cashflow.repository;
 
-import com.devvictorh.cashflow.entity.ExpenseEntity;
 import com.devvictorh.cashflow.entity.IncomeEntity;
 import com.devvictorh.cashflow.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

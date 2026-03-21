@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Income", description = "Gerenciamento de Receitas")
 @RestController
-@RequestMapping("/api/incomes")
 @AllArgsConstructor
-@Tag(name = "Income")
+@RequestMapping("/api/incomes")
 public class IncomeController {
 
     private final IncomeService service;

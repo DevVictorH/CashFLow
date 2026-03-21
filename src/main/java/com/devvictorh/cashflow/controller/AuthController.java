@@ -22,14 +22,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Auth", description = "Gerenciamento de Autenticação do usuário")
 @RestController
-@RequestMapping("/api/auth")
 @AllArgsConstructor
-@Tag(name = "Auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private final UserRepository repository;
     private final UserService service;
     private final TokenService tokenService;
 

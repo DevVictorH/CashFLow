@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "User", description = "Gerenciamento de usuarios")
 @RestController
-@RequestMapping("/api/users")
 @AllArgsConstructor
-@Tag(name = "User")
+@RequestMapping("/api/users")
 public class UserController {
 
     private final UserService service;
@@ -45,9 +45,9 @@ public class UserController {
            @ApiResponse(responseCode = "403", description = "Usuário sem permissão!"),
            @ApiResponse(responseCode = "401", description = "Usuário não autenticado!")
    })
-    public ResponseEntity<List<UserResponseDTO>> listAll(){
-        return ResponseEntity.ok(service.listAllUsers());
-    }
+   public ResponseEntity<List<UserResponseDTO>> findAll(@RequestParam int page, @RequestParam int qtyUsers){
+       return ResponseEntity.ok(service.findAllUsers(page, qtyUsers));
+   }
 
     @GetMapping("/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -90,4 +90,6 @@ public class UserController {
             service.deleteUser(userId);
             return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+
 }

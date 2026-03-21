@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Expense", description = "Gerenciamento de despesas")
 @RestController
-@RequestMapping("/api/expenses")
 @AllArgsConstructor
-@Tag(name = "Expense")
+@RequestMapping("/api/expenses")
 public class ExpenseController {
 
     private final ExpenseService service;

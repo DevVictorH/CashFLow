@@ -8,6 +8,8 @@ import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.service.mapper.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +54,11 @@ public class UserService {
 
     public List<UserResponseDTO> listAllUsers() {
         return repository.findAll().stream().map(mapper::toResponse).toList();
+    }
+
+    public List<UserResponseDTO> findAllUsers(int page, int qtyUsers){
+         Page<UserEntity> lista = repository.findAll(PageRequest.of(page, qtyUsers));
+         return lista.stream().map(mapper::toResponse).toList();
     }
 
     public UserResponseDTO findById(Long id) {

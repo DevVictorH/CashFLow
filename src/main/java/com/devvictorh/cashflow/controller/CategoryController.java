@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Category", description = "Gerenciamento de Categorias")
 @RestController
-@RequestMapping("/api/categories")
 @AllArgsConstructor
-@Tag(name = "Category")
+@RequestMapping("/api/categories")
 public class CategoryController {
 
     private final CategoryService service;
