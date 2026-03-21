@@ -1,12 +1,9 @@
 package com.devvictorh.cashflow.service;
 
 import com.devvictorh.cashflow.dto.request.ExpenseRequestDTO;
-import com.devvictorh.cashflow.dto.request.IncomeRequestDTO;
 import com.devvictorh.cashflow.dto.response.ExpenseResponseDTO;
-import com.devvictorh.cashflow.dto.response.IncomeResponseDTO;
 import com.devvictorh.cashflow.entity.CategoryEntity;
 import com.devvictorh.cashflow.entity.ExpenseEntity;
-import com.devvictorh.cashflow.entity.IncomeEntity;
 import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.entity.enums.CategoryType;
 import com.devvictorh.cashflow.exceptions.BusinessException;
@@ -16,6 +13,7 @@ import com.devvictorh.cashflow.repository.ExpenseRepository;
 import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.service.mapper.ExpenseMapper;
 import com.devvictorh.cashflow.validator.ExpenseValidator;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,8 +26,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class ExpenseServiceTest {
@@ -99,7 +95,7 @@ class ExpenseServiceTest {
     void shouldThrowErrorWhenCreateExpense() {
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ObjectNotFoundException.class, () -> service.createExpense(1L, 1L, expenseRequestDTO));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> service.createExpense(1L, 1L, expenseRequestDTO));
         Mockito.verify(expenseRepository, Mockito.never()).save(Mockito.any());
     }
 
@@ -119,7 +115,7 @@ class ExpenseServiceTest {
     void shouldThrowErrorWhenListAllExpense(){
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ObjectNotFoundException.class, () -> service.listAllExpense(1L));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> service.listAllExpense(1L));
     }
 
     @Test
@@ -133,10 +129,10 @@ class ExpenseServiceTest {
     }
 
     @Test
-    void shouldThrowErrorWhenDeleteExpense(){
+    void shouldThrowErrorEntityNotFoundWhenDeleteExpense(){
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ObjectNotFoundException.class, () -> service.deleteExpense(1L, 1L));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> service.deleteExpense(1L, 1L));
     }
 
     @Test

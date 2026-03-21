@@ -14,12 +14,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -111,10 +112,13 @@ class UserServiceTest {
 
     @Test
     void shouldListAllUsers() {
-        Mockito.when(userRepository.findAll()).thenReturn(List.of(entity));
+        List<UserEntity> userList = List.of(entity);
+        Page<UserEntity> userPage = new PageImpl<>(userList);
+
+        Mockito.when(userRepository.findAll(PageRequest.of(1, 5))).thenReturn(userPage);
         Mockito.when(mapper.toResponse(Mockito.any())).thenReturn(userResponseDTO);
 
-        var list = userService.listAllUsers();
+        var list = userService.findAllUsers(1,5);
 
         Assertions.assertNotNull(list);
         Assertions.assertEquals(1, list.size());

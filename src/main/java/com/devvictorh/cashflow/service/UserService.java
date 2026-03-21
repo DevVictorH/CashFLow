@@ -52,9 +52,6 @@ public class UserService {
         repository.delete(userExistente);
     }
 
-    public List<UserResponseDTO> listAllUsers() {
-        return repository.findAll().stream().map(mapper::toResponse).toList();
-    }
 
     public List<UserResponseDTO> findAllUsers(int page, int qtyUsers){
          Page<UserEntity> lista = repository.findAll(PageRequest.of(page, qtyUsers));

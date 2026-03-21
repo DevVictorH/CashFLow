@@ -7,12 +7,12 @@ import com.devvictorh.cashflow.entity.IncomeEntity;
 import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.entity.enums.CategoryType;
 import com.devvictorh.cashflow.exceptions.BusinessException;
-import com.devvictorh.cashflow.exceptions.ObjectNotFoundException;
 import com.devvictorh.cashflow.repository.CategoryRepository;
 import com.devvictorh.cashflow.repository.IncomeRepository;
 import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.service.mapper.IncomeMapper;
 import com.devvictorh.cashflow.validator.IncomeValidator;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,8 +25,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class IncomeServiceTest {
@@ -97,7 +95,7 @@ class IncomeServiceTest {
     void shouldThrowErrorWhenCreateIncome() {
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ObjectNotFoundException.class, () -> service.createIncome(1L, 1L, incomeRequestDTO));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> service.createIncome(1L, 1L, incomeRequestDTO));
         Mockito.verify(incomeRepository, Mockito.never()).save(Mockito.any());
     }
 
@@ -117,7 +115,7 @@ class IncomeServiceTest {
     void shouldThrowErrorWhenListAllIncome(){
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ObjectNotFoundException.class, () -> service.listAllIncome(1L));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> service.listAllIncome(1L));
     }
 
     @Test
@@ -131,10 +129,10 @@ class IncomeServiceTest {
     }
 
     @Test
-    void shouldThrowErrorObjectNotFoundWhenDeleteIncome(){
+    void shouldThrowErrorEntityNotFoundWhenDeleteIncome(){
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ObjectNotFoundException.class, () -> service.deleteIncome(1L, 1L));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> service.deleteIncome(1L, 1L));
     }
 
     @Test

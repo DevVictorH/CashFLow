@@ -87,12 +87,14 @@ class UserControllerTest {
     }
 
     @Test
-    void shouldListAll() throws Exception{
+    void shouldFindAll() throws Exception{
         Mockito.when(mapper.toResponse(user)).thenReturn(response);
-        Mockito.when(service.listAllUsers()).thenReturn(List.of(response));
+        Mockito.when(service.findAllUsers(1,5)).thenReturn(List.of(response));
 
         mvc.perform(
-                get("/api/users"))
+                get("/api/users")
+                        .param("page", "1")
+                        .param("qtyUsers", "5"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value("Victor"))
                 .andExpect(jsonPath("$[0].email").value("victor@gmail.com"));

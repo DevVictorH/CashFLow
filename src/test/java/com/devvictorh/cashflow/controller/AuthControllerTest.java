@@ -6,6 +6,7 @@ import com.devvictorh.cashflow.dto.request.UserRequestDTO;
 import com.devvictorh.cashflow.dto.response.IncomeResponseDTO;
 import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.entity.enums.UserRole;
+import com.devvictorh.cashflow.exceptions.BusinessException;
 import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.security.TokenService;
 import com.devvictorh.cashflow.service.UserService;
@@ -112,7 +113,8 @@ class AuthControllerTest {
     void shouldThrowErrorWhenRegister() throws Exception{
         UserRequestDTO userRequestDTO = new UserRequestDTO("Victor", "victor@email.com", "123","ADMIN");
 
-        Mockito.when(repository.findByEmail(Mockito.any())).thenReturn(user);
+        Mockito.when(service.saveUser(Mockito.any(UserRequestDTO.class)))
+                .thenThrow(new BusinessException("Email já cadastrado"));
 
         String json = objectMapper.writeValueAsString(userRequestDTO);
 

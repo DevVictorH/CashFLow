@@ -5,12 +5,12 @@ import com.devvictorh.cashflow.dto.response.CategoryResponseDTO;
 import com.devvictorh.cashflow.entity.CategoryEntity;
 import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.entity.enums.CategoryType;
-import com.devvictorh.cashflow.exceptions.BusinessException;
 import com.devvictorh.cashflow.exceptions.ObjectNotFoundException;
 import com.devvictorh.cashflow.repository.CategoryRepository;
 import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.service.mapper.CategoryMapper;
 import com.devvictorh.cashflow.validator.CategoryValidator;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,8 +22,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceTest {
@@ -82,7 +80,7 @@ class CategoryServiceTest {
     void shouldThrowErrorWhenCreateCategory(){
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ObjectNotFoundException.class, () -> service.createCategory(1L, categoryRequestDTO));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> service.createCategory(1L, categoryRequestDTO));
         Mockito.verify(categoryRepository, Mockito.never()).save(Mockito.any());
     }
 
@@ -101,7 +99,7 @@ class CategoryServiceTest {
     void shouldThrowErrorWhenUpdateCategory(){
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ObjectNotFoundException.class, () -> service.updateCategory(1L, categoryRequestDTO));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> service.updateCategory(1L, categoryRequestDTO));
     }
 
     @Test
@@ -120,7 +118,7 @@ class CategoryServiceTest {
     void shouldThrowErrorWhenListAllCategories(){
         Mockito.when(userRepository.findById(Mockito.any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ObjectNotFoundException.class, () -> service.listAllCategories(1L));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> service.listAllCategories(1L));
     }
 
     @Test
