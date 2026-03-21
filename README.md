@@ -57,10 +57,7 @@ mvn clean verify
 mvn spring-boot:run
 ```
 ---
-
 ## 📄 Documentação da API
 
 A documentação interativa está disponível via Swagger: http://localhost:8080/swagger-ui/index.html
 
-# rodar o projeto
-mvn spring-boot:run
