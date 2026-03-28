@@ -1,10 +1,12 @@
+import { Link } from "react-router-dom";
+
 export default function Sidebar() {
-  const items: string[] = [
-    "Dashboard",
-    "Category",
-    "Income",
-    "Expense",
-    "Filters",
+  const items = [
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Category", path: "/categories" },
+    { name: "Income", path: "/income" },
+    { name: "Expense", path: "/expense" },
+    { name: "Filters", path: "/filters" },
   ];
 
   return (
@@ -13,13 +15,13 @@ export default function Sidebar() {
 
       <nav className="flex flex-col gap-3">
         {items.map((item, index) => (
-          <a
+          <Link
             key={index}
-            href="#"
+            to={item.path}
             className="p-2 rounded-lg hover:bg-indigo-100 text-gray-700"
           >
-            {item}
-          </a>
+            {item.name}
+          </Link>
         ))}
       </nav>
     </div>
