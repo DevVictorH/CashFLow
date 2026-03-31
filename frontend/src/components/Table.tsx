@@ -2,35 +2,32 @@ type Transaction = {
   name: string;
   category: string;
   amount: string;
-  status: string;
 };
 
 const data: Transaction[] = [
   {
     name: "Netflix",
-    category: "Subscription",
-    amount: "-$50",
-    status: "Paid",
+    category: "Inscrição",
+    amount: "-R$50",
   },
   {
-    name: "Salary",
-    category: "Income",
-    amount: "+$3000",
-    status: "Done",
+    name: "Salario",
+    category: "Receita",
+    amount: "+R$3000",
   },
 ];
 
 export default function Table() {
   return (
     <div className="bg-white p-4 rounded-2xl shadow-sm">
-      <h2 className="mb-4 font-semibold">Recent Transactions</h2>
+      <h2 className="mb-4 font-semibold">Transações recentes</h2>
 
       <table className="w-full text-center">
         <thead>
           <tr className="text-gray-500">
-            <th>Name</th>
-            <th>Category</th>
-            <th>Amount</th>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Quantia</th>
           </tr>
         </thead>
 

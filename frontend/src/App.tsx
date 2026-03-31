@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Categories from "./pages/Categories";
 import Expense from "./pages/Expense";
+import Income from "./pages/Income";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/expense" element={<Expense />} />
+        <Route path="/income" element={<Income />} />
       </Routes>
     </BrowserRouter>
   );

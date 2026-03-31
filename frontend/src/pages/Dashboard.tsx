@@ -12,9 +12,9 @@ export default function Dashboard() {
         <Header />
 
         <div className="grid grid-cols-3 gap-4">
-          <Card title="Total Balance" value="$66,000" color="text-indigo-600" />
-          <Card title="Income" value="$44,000" color="text-green-500" />
-          <Card title="Expenses" value="$22,000" color="text-red-500" />
+          <Card title="Dinheiro total" value="R$66,000" color="text-indigo-600" />
+          <Card title="Receitas" value="R$44,000" color="text-green-500" />
+          <Card title="Despesas" value="R$22,000" color="text-red-500" />
         </div>
 
        {/* <Charts /> */}

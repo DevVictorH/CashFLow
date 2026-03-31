@@ -34,11 +34,6 @@ export default function AddCategoryModal({ onClose, onAdd }: Props) {
 
         <form onSubmit={handleSubmit} className="space-y-4">
 
-          {/* Icon placeholder */}
-          <div className="flex items-center gap-2 text-purple-600 cursor-pointer">
-            📷 <span>Pick Icon</span>
-          </div>
-
           {/* Name */}
           <input
             type="text"

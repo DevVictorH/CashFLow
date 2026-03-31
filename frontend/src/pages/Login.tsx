@@ -50,7 +50,7 @@ export default function Login() {
           />
 
           <button className="w-full bg-purple-600 text-white py-3 rounded-lg">
-            Sign In
+            Entrar
           </button>
 
         </form>
