@@ -11,7 +11,9 @@ export default function Sidebar() {
 
   return (
     <div className="w-64 h-screen bg-gray-50 p-4 shadow-sm">
-      <h1 className="text-xl font-bold mb-6 text-indigo-600">Cashflow</h1>
+      <Link to="/dashboard" className="block text-xl font-bold mb-6 text-indigo-600 hover:text-indigo-700">
+        Cashflow
+      </Link>
 
       <nav className="flex flex-col gap-3">
         {items.map((item, index) => (

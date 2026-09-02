@@ -1,0 +1,115 @@
+:root {
+  color-scheme: light;
+  --bg-page: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-soft: #f3f4f6;
+  --bg-soft-strong: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+  --shadow-soft: 0 10px 25px rgba(15, 23, 42, 0.08);
+  --brand: #7c3aed;
+  --brand-hover: #6d28d9;
+  --brand-soft: #f3e8ff;
+  --button-text: #ffffff;
+  --link-hover: #4f46e5;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: Inter, "Segoe UI", sans-serif;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.theme-dark {
+  color-scheme: dark;
+  --bg-page: #111827;
+  --bg-surface: #1f2937;
+  --bg-soft: #374151;
+  --bg-soft-strong: #4b5563;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+  --border-color: #374151;
+  --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.28);
+  --brand: #8b5cf6;
+  --brand-hover: #a78bfa;
+  --brand-soft: rgba(139, 92, 246, 0.18);
+  --button-text: #ffffff;
+  --link-hover: #c4b5fd;
+}
+
+body.theme-dark {
+  background: var(--bg-page);
+  color: var(--text-primary);
+}
+
+.theme-dark .bg-white,
+.theme-dark .bg-gray-50,
+.theme-dark .bg-gray-100,
+.theme-dark .bg-gray-200,
+.theme-dark .bg-gray-300,
+.theme-dark .bg-gray-600,
+.theme-dark .bg-gray-700 {
+  background-color: var(--bg-surface) !important;
+}
+
+.theme-dark .text-gray-500,
+.theme-dark .text-gray-600,
+.theme-dark .text-gray-700,
+.theme-dark .text-gray-800,
+.theme-dark .text-gray-400,
+.theme-dark .text-gray-300 {
+  color: var(--text-secondary) !important;
+}
+
+.theme-dark .text-black,
+.theme-dark .text-gray-900 {
+  color: var(--text-primary) !important;
+}
+
+.theme-dark .border,
+.theme-dark .border-gray-200,
+.theme-dark .border-gray-300 {
+  border-color: var(--border-color) !important;
+}
+
+.theme-dark .shadow,
+.theme-dark .shadow-sm,
+.theme-dark .shadow-md {
+  box-shadow: var(--shadow-soft) !important;
+}
+
+.theme-dark .bg-purple-600 {
+  background-color: var(--brand) !important;
+}
+
+.theme-dark .hover\:bg-purple-700:hover {
+  background-color: var(--brand-hover) !important;
+}
+
+.theme-dark .text-indigo-600,
+.theme-dark .text-purple-600 {
+  color: var(--brand) !important;
+}
+
+.theme-dark .bg-gray-50 {
+  background-color: var(--bg-surface) !important;
+}
