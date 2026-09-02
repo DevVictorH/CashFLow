@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getCategoriesByType } from "../utils/categories";
 
 interface Income {
   source: string;
@@ -15,6 +16,11 @@ export default function AddIncomeModal({ onClose, onAdd }: AddIncomeModalProps) 
   const [source, setSource] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
+  const [availableCategories, setAvailableCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    setAvailableCategories(getCategoriesByType("Income").map((cat) => cat.name));
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,10 +54,11 @@ export default function AddIncomeModal({ onClose, onAdd }: AddIncomeModalProps) 
               required
             >
               <option value="">Select Category</option>
-              <option value="Food">Food</option>
-              <option value="Transport">Transport</option>
-              <option value="Entertainment">Entertainment</option>
-              {/* Add more options as needed */}
+              {availableCategories.map((name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="mb-4">

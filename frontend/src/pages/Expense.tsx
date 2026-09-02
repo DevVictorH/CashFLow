@@ -1,27 +1,32 @@
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import AddExpenseModal from "../components/AddExpenseModal";
-import { useState } from "react";
-
-interface Expense {
-  source: string;
-  category: string;
-  amount: number;
-}
+import { useEffect, useState } from "react";
+import {
+  getStoredExpenses,
+  setStoredExpenses,
+  type ExpenseRecord,
+} from "../utils/categories";
 
 export default function Expenses() {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [expenses, setExpenses] = useState<ExpenseRecord[]>([]);
   const [openModal, setOpenModal] = useState(false);
 
-  const handleAddExpense = (expense: Expense) => {
-    setExpenses((prev) => [...prev, expense]);
+  useEffect(() => {
+    setExpenses(getStoredExpenses());
+  }, []);
+
+  const handleAddExpense = (expense: ExpenseRecord) => {
+    const updated = [...expenses, expense];
+    setExpenses(updated);
+    setStoredExpenses(updated);
     setOpenModal(false);
   };
 
   const handleDeleteExpense = (indexToRemove: number) => {
-    setExpenses((prev) =>
-      prev.filter((_, index) => index !== indexToRemove)
-    );
+    const updated = expenses.filter((_, index) => index !== indexToRemove);
+    setExpenses(updated);
+    setStoredExpenses(updated);
   };
 
   return (

@@ -1,26 +1,32 @@
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import AddCategoryModal from "../components/AddCategoryModal";
-import { useState } from "react";
-
-interface Category {
-  name: string;
-  type: string;
-}
+import { useEffect, useState } from "react";
+import {
+  getStoredCategories,
+  setStoredCategories,
+  type Category,
+} from "../utils/categories";
 
 export default function Categories() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [openModal, setOpenModal] = useState(false);
 
+  useEffect(() => {
+    setCategories(getStoredCategories());
+  }, []);
+
   const handleAddCategory = (category: Category) => {
-    setCategories((prev) => [...prev, category]);
+    const updated = [...categories, category];
+    setCategories(updated);
+    setStoredCategories(updated);
     setOpenModal(false);
   };
 
   const handleDeleteCategory = (indexToRemove: number) => {
-    setCategories((prev) =>
-      prev.filter((_, index) => index !== indexToRemove)
-    );
+    const updated = categories.filter((_, index) => index !== indexToRemove);
+    setCategories(updated);
+    setStoredCategories(updated);
   };
 
   return (

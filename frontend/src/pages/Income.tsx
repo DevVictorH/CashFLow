@@ -1,27 +1,32 @@
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import AddExpenseModal from "../components/AddExpenseModal";
-import { useState } from "react";
-
-interface Income {
-  source: string;
-  category: string;
-  amount: number;
-}
+import AddIncomeModal from "../components/AddIncomeModal";
+import { useEffect, useState } from "react";
+import {
+  getStoredIncomes,
+  setStoredIncomes,
+  type IncomeRecord,
+} from "../utils/categories";
 
 export default function Incomes() {
-  const [expenses, setExpenses] = useState<Income[]>([]);
+  const [incomes, setIncomes] = useState<IncomeRecord[]>([]);
   const [openModal, setOpenModal] = useState(false);
 
-  const handleAddExpense = (expense: Income) => {
-    setExpenses((prev) => [...prev, expense]);
+  useEffect(() => {
+    setIncomes(getStoredIncomes());
+  }, []);
+
+  const handleAddIncome = (income: IncomeRecord) => {
+    const updated = [...incomes, income];
+    setIncomes(updated);
+    setStoredIncomes(updated);
     setOpenModal(false);
   };
 
   const handleDeleteIncome = (indexToRemove: number) => {
-    setExpenses((prev) =>
-      prev.filter((_, index) => index !== indexToRemove)
-    );
+    const updated = incomes.filter((_, index) => index !== indexToRemove);
+    setIncomes(updated);
+    setStoredIncomes(updated);
   };
 
   return (
@@ -51,20 +56,20 @@ export default function Incomes() {
         <div className="bg-white rounded-2xl shadow p-6">
           <h2 className="font-semibold mb-4">Income Sources</h2>
 
-          {expenses.length === 0 ? (
+          {incomes.length === 0 ? (
             <p className="text-gray-500">
               Sem receitas. Adicione alguma para começar!
             </p>
           ) : (
             <div className="space-y-3">
-              {expenses.map((exp, index) => (
+              {incomes.map((income, index) => (
                 <div
                   key={index}
                   className="flex items-center justify-between bg-gray-50 p-4 rounded-xl hover:bg-gray-100"
                 >
                   <div>
-                    <p className="font-medium">{exp.source}</p>
-                    <p className="text-sm text-gray-500">{exp.category} - R$ {exp.amount.toFixed(2)}</p>
+                    <p className="font-medium">{income.source}</p>
+                    <p className="text-sm text-gray-500">{income.category} - R$ {income.amount.toFixed(2)}</p>
                   </div>
 
                   {/* Botão delete */}
@@ -84,9 +89,9 @@ export default function Incomes() {
 
       {/* Modal */}
       {openModal && (
-        <AddExpenseModal
+        <AddIncomeModal
           onClose={() => setOpenModal(false)}
-          onAdd={handleAddExpense}
+          onAdd={handleAddIncome}
         />
       )}
     </div>
