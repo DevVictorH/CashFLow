@@ -15,6 +15,7 @@ API RESTful para gerenciamento de receitas e despesas, desenvolvida com **Java +
 - Swagger (OpenAPI)
 - JUnit + Mockito
 - Map-Struct
+- Docker
 - GitHub Actions (CI)
 
 ---
@@ -28,6 +29,7 @@ API RESTful para gerenciamento de receitas e despesas, desenvolvida com **Java +
 - ✅ **Validação de Dados:** Uso de Bean Validation para integridade dos inputs.
 - ✅ **Testes automatizados:** Uso de JUnit e Mockito para rodar os testes.
 - ✅ **Documentação:** Interface interativa para teste de endpoints.
+- ✅ **Containerização:** Aplicação e banco de dados com Docker 
 
 ---
 
@@ -55,6 +57,25 @@ mvn clean verify
 
 # Inicie a aplicação
 mvn spring-boot:run
+```
+---
+
+## 🐳 Como subir o projeto com Docker
+
+Você pode rodar toda a aplicação (API + banco de dados) utilizando Docker, sem precisar instalar nada além do Docker na sua máquina.
+
+---
+
+### ✅ Pré-requisitos
+
+- Docker instalado  
+
+---
+
+Na raiz do projeto, execute:
+
+```bash
+docker compose up --build -d
 ```
 ---
 ## 📄 Documentação da API
