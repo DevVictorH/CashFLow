@@ -5,6 +5,7 @@ interface Expense {
   source: string;
   category: string;
   amount: number;
+  createdAt?: number;
 }
 
 interface AddExpenseModalProps {
@@ -25,7 +26,7 @@ export default function AddExpenseModal({ onClose, onAdd }: AddExpenseModalProps
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (source && category && amount) {
-      onAdd({ source, category, amount: parseFloat(amount) });
+      onAdd({ source, category, amount: parseFloat(amount), createdAt: Date.now() });
       onClose();
     }
   };

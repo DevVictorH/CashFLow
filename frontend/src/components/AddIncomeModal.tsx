@@ -5,6 +5,7 @@ interface Income {
   source: string;
   category: string;
   amount: number;
+  createdAt?: number;
 }
 
 interface AddIncomeModalProps {
@@ -25,7 +26,7 @@ export default function AddIncomeModal({ onClose, onAdd }: AddIncomeModalProps) 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (source && category && amount) {
-      onAdd({ source, category, amount: parseFloat(amount) });
+      onAdd({ source, category, amount: parseFloat(amount), createdAt: Date.now() });
       onClose();
     }
   };
