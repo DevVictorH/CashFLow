@@ -8,7 +8,6 @@ import {
   getStoredIncomes,
   STORAGE_UPDATED_EVENT,
 } from "../utils/categories";
-import Charts from "../components/Charts";
 
 const formatCurrency = (value: number) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });

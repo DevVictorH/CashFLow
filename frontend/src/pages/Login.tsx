@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { login } from "../services/authService";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -21,7 +22,8 @@ export default function Login() {
 
     } catch (error) {
       console.error("Erro ao fazer login", error);
-      alert("Email ou senha inválidos");
+      toast.dismiss();
+      toast.error("Email ou senha inválidos");
     }
   };
 

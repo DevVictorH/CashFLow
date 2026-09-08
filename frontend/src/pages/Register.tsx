@@ -1,6 +1,36 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import type { FormEvent } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { register } from "../services/authService";
 
 export default function Register() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role] = useState<"USER" | "ADMIN">("USER");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      await register({ name, email, password, role });
+      toast.success("Conta criada com sucesso");
+      navigate("/login");
+    } catch (error: unknown) {
+      const message = axios.isAxiosError<{ message?: string }>(error)
+        ? error.response?.data?.message ?? "Não foi possível criar a conta"
+        : "Não foi possível criar a conta";
+      toast.error(message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
         <><Link to="/">
       <header className="flex items-center justify-between px-10 py-4 bg-white shadow-sm">
@@ -16,25 +46,37 @@ export default function Register() {
             Criar conta
           </h2>
 
-          <form className="space-y-4">
+          <form onSubmit={handleRegister} className="space-y-4">
 
             <input
               type="text"
               placeholder="Nome"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              required
               className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" />
 
             <input
               type="email"
               placeholder="Email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              required
               className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" />
 
             <input
               type="password"
               placeholder="Password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
               className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" />
 
-            <button className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition">
-              Criar
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition disabled:opacity-50">
+              {isSubmitting ? "Criando..." : "Criar"}
             </button>
 
           </form>

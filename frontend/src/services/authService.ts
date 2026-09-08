@@ -1,6 +1,13 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/auth";
+const API_URL = "/api/auth";
+
+export type RegisterData = {
+  name: string;
+  email: string;
+  password: string;
+  role: "USER" | "ADMIN";
+};
 
 export const login = async (email: string, password: string) => {
   const response = await axios.post(`${API_URL}/login`, {
@@ -9,4 +16,8 @@ export const login = async (email: string, password: string) => {
   });
 
   return response.data;
+};
+
+export const register = async (data: RegisterData) => {
+  await axios.post(`${API_URL}/register`, data);
 };
