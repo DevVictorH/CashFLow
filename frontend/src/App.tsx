@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Categories from "./pages/Categories";
 import Expense from "./pages/Expense";
 import Income from "./pages/Income";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -14,10 +15,12 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/expense" element={<Expense />} />
-        <Route path="/income" element={<Income />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/expense" element={<Expense />} />
+          <Route path="/income" element={<Income />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

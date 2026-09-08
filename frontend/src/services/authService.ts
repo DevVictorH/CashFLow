@@ -9,13 +9,18 @@ export type RegisterData = {
   role: "USER" | "ADMIN";
 };
 
+export type LoginData = {
+  token: string;
+  name: string;
+};
+
 export const login = async (email: string, password: string) => {
   const response = await axios.post(`${API_URL}/login`, {
     email,
     password,
   });
 
-  return response.data;
+  return response.data as LoginData;
 };
 
 export const register = async (data: RegisterData) => {

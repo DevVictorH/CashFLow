@@ -1,6 +1,16 @@
-import { FiUser } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { FiLogOut, FiUser } from "react-icons/fi";
 
 export default function Header() {
+  const navigate = useNavigate();
+  const userName = localStorage.getItem("userName") ?? "Usuário";
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+    navigate("/", { replace: true });
+  };
+
   return (
     <div className="flex justify-between items-center bg-white p-4 shadow-sm rounded-xl">
       <input
@@ -13,7 +23,16 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <FiUser className="h-10 w-10 rounded-full bg-gray-100 p-2 text-gray-600" aria-label="Usuário" />
-          <span className="font-medium">Victor</span>
+          <span className="font-medium">{userName}</span>
+          <button
+            type="button"
+            onClick={handleLogout}
+            title="Sair"
+            aria-label="Sair da conta"
+            className="p-2 text-gray-600 hover:text-red-600 transition"
+          >
+            <FiLogOut size={20} />
+          </button>
         </div>
       </div>
     </div>

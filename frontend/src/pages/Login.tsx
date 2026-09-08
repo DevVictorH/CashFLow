@@ -16,6 +16,9 @@ export default function Login() {
 
       // salvar token
       localStorage.setItem("token", data.token);
+      if (data.name) {
+        localStorage.setItem("userName", data.name);
+      }
 
       // redirecionar
       navigate("/dashboard");

@@ -1,4 +1,4 @@
 package com.devvictorh.cashflow.dto.response;
 
-public record LoginResponseDTO(String token) {
+public record LoginResponseDTO(String token, String name) {
 }
