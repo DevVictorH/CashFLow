@@ -1,8 +1,10 @@
 package com.devvictorh.cashflow.controller;
 
 import com.devvictorh.cashflow.dto.request.AuthenticationRequestDTO;
+import com.devvictorh.cashflow.dto.request.ProfileUpdateRequestDTO;
 import com.devvictorh.cashflow.dto.request.UserRequestDTO;
 import com.devvictorh.cashflow.dto.response.LoginResponseDTO;
+import com.devvictorh.cashflow.dto.response.UserResponseDTO;
 import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.security.TokenService;
@@ -17,7 +19,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +51,18 @@ public class AuthController {
 
         return ResponseEntity.ok(new LoginResponseDTO(token, ((UserEntity) auth.getPrincipal()).getName()));
     }
+
+        @GetMapping("/me")
+        public ResponseEntity<UserResponseDTO> profile(@AuthenticationPrincipal UserEntity user) {
+                return ResponseEntity.ok(new UserResponseDTO(user.getId(), user.getName(), user.getEmail()));
+        }
+
+        @PutMapping("/me")
+        public ResponseEntity<UserResponseDTO> updateProfile(
+                        @AuthenticationPrincipal UserEntity user,
+                        @RequestBody @Valid ProfileUpdateRequestDTO dto) {
+                return ResponseEntity.ok(service.updateProfile(user, dto));
+        }
 
     @PostMapping("/register")
     @Operation(summary = "Registrar Usuario", description = "Faz o registo de um usuário novo")

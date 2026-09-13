@@ -22,7 +22,15 @@ export default function Header() {
       <div className="flex items-center gap-4">
 
         <div className="flex items-center gap-2">
-          <FiUser className="h-10 w-10 rounded-full bg-gray-100 p-2 text-gray-600" aria-label="Usuário" />
+          <button
+            type="button"
+            onClick={() => navigate("/profile")}
+            title="Meu perfil"
+            aria-label="Abrir meu perfil"
+            className="rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <FiUser className="h-10 w-10 rounded-full bg-gray-100 p-2 text-gray-600 hover:bg-indigo-100" />
+          </button>
           <span className="font-medium">{userName}</span>
           <button
             type="button"

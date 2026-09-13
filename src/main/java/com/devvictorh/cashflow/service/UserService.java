@@ -1,6 +1,7 @@
 package com.devvictorh.cashflow.service;
 
 import com.devvictorh.cashflow.dto.request.UserRequestDTO;
+import com.devvictorh.cashflow.dto.request.ProfileUpdateRequestDTO;
 import com.devvictorh.cashflow.dto.response.UserResponseDTO;
 import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.exceptions.BusinessException;
@@ -44,6 +45,20 @@ public class UserService {
 
         repository.save(userExistente);
         return mapper.toResponse(userExistente);
+    }
+
+    public UserResponseDTO updateProfile(UserEntity user, ProfileUpdateRequestDTO profile) {
+        if (!user.getEmail().equals(profile.email()) && repository.existsByEmail(profile.email())) {
+            throw new BusinessException("Email já cadastrado");
+        }
+
+        user.setName(profile.name());
+        user.setEmail(profile.email());
+        if (profile.password() != null && !profile.password().isBlank()) {
+            user.setPassword(encoder.encode(profile.password()));
+        }
+
+        return mapper.toResponse(repository.save(user));
     }
 
     public void deleteUser(Long id) {

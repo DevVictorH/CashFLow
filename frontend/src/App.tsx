@@ -7,6 +7,7 @@ import Categories from "./pages/Categories";
 import Expense from "./pages/Expense";
 import Income from "./pages/Income";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/categories" element={<Categories />} />
           <Route path="/expense" element={<Expense />} />
           <Route path="/income" element={<Income />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>
