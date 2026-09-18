@@ -2,31 +2,35 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import AddExpenseModal from "../components/AddExpenseModal";
 import { useEffect, useState } from "react";
-import {
-  getStoredExpenses,
-  setStoredExpenses,
-  type ExpenseRecord,
-} from "../utils/categories";
+import { getCategories, type Category } from "../services/categoryService";
+import { expenseService, type FinancialRecord, type FinancialRequest } from "../services/financialService";
 
 export default function Expenses() {
-  const [expenses, setExpenses] = useState<ExpenseRecord[]>([]);
+  const [expenses, setExpenses] = useState<FinancialRecord[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
-    setExpenses(getStoredExpenses());
+    Promise.all([expenseService.list(), getCategories()])
+      .then(([storedExpenses, storedCategories]) => {
+        setExpenses(storedExpenses);
+        setCategories(storedCategories);
+      })
+      .catch(() => {
+        setExpenses([]);
+        setCategories([]);
+      });
   }, []);
 
-  const handleAddExpense = (expense: ExpenseRecord) => {
-    const updated = [...expenses, expense];
-    setExpenses(updated);
-    setStoredExpenses(updated);
+  const handleAddExpense = async (expense: FinancialRequest) => {
+    await expenseService.create(expense);
+    setExpenses(await expenseService.list());
     setOpenModal(false);
   };
 
-  const handleDeleteExpense = (indexToRemove: number) => {
-    const updated = expenses.filter((_, index) => index !== indexToRemove);
-    setExpenses(updated);
-    setStoredExpenses(updated);
+  const handleDeleteExpense = async (expenseId: number) => {
+    await expenseService.remove(expenseId);
+    setExpenses((current) => current.filter((expense) => expense.id !== expenseId));
   };
 
   return (
@@ -62,19 +66,21 @@ export default function Expenses() {
             </p>
           ) : (
             <div className="space-y-3">
-              {expenses.map((exp, index) => (
+              {expenses.map((exp) => (
                 <div
-                  key={index}
+                  key={exp.id}
                   className="flex items-center justify-between bg-gray-50 p-4 rounded-xl hover:bg-gray-100"
                 >
                   <div>
                     <p className="font-medium">{exp.source}</p>
-                    <p className="text-sm text-gray-500">{exp.category} - R$ {exp.amount.toFixed(2)}</p>
+                    <p className="text-sm text-gray-500">
+                      {exp.categoryName ?? categories.find((category) => category.id === exp.categoryId)?.name ?? "Sem categoria"} - R$ {exp.amount.toFixed(2)}
+                    </p>
                   </div>
 
                   {/* Botão delete */}
                   <button
-                    onClick={() => handleDeleteExpense(index)}
+                    onClick={() => void handleDeleteExpense(exp.id)}
                     className="text-gray-400 hover:text-red-500 text-lg"
                   >
                     ✕

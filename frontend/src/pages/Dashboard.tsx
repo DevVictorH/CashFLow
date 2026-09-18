@@ -3,11 +3,7 @@ import Header from "../components/Header";
 import Card from "../components/Card";
 import Table from "../components/Table";
 import { useEffect, useState } from "react";
-import {
-  getStoredExpenses,
-  getStoredIncomes,
-  STORAGE_UPDATED_EVENT,
-} from "../utils/categories";
+import { expenseService, incomeService } from "../services/financialService";
 
 const formatCurrency = (value: number) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -17,23 +13,10 @@ export default function Dashboard() {
   const [expenseTotal, setExpenseTotal] = useState(0);
 
   useEffect(() => {
-    const updateTotals = () => {
-      setIncomeTotal(
-        getStoredIncomes().reduce((total, income) => total + income.amount, 0),
-      );
-      setExpenseTotal(
-        getStoredExpenses().reduce((total, expense) => total + expense.amount, 0),
-      );
-    };
-
-    updateTotals();
-    window.addEventListener(STORAGE_UPDATED_EVENT, updateTotals);
-    window.addEventListener("storage", updateTotals);
-
-    return () => {
-      window.removeEventListener(STORAGE_UPDATED_EVENT, updateTotals);
-      window.removeEventListener("storage", updateTotals);
-    };
+    Promise.all([incomeService.list(), expenseService.list()]).then(([incomes, expenses]) => {
+      setIncomeTotal(incomes.reduce((total, income) => total + income.amount, 0));
+      setExpenseTotal(expenses.reduce((total, expense) => total + expense.amount, 0));
+    });
   }, []);
 
   return (

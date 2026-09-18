@@ -4,6 +4,7 @@ import com.devvictorh.cashflow.dto.request.ExpenseRequestDTO;
 import com.devvictorh.cashflow.dto.response.ExpenseResponseDTO;
 import com.devvictorh.cashflow.entity.ExpenseEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ public interface ExpenseMapper {
 
     ExpenseEntity toEntity(ExpenseRequestDTO dto);
 
+    @Mapping(source = "categoryEntity.id", target = "categoryId")
+    @Mapping(source = "categoryEntity.name", target = "categoryName")
     ExpenseResponseDTO toResponse(ExpenseEntity entity);
 
     List<ExpenseResponseDTO> toResponseList(List<ExpenseEntity> list);

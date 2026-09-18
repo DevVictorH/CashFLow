@@ -3,23 +3,7 @@ export interface Category {
   type: string;
 }
 
-export interface ExpenseRecord {
-  source: string;
-  category: string;
-  amount: number;
-  createdAt?: number;
-}
-
-export interface IncomeRecord {
-  source: string;
-  category: string;
-  amount: number;
-  createdAt?: number;
-}
-
 const STORAGE_KEY = "cashflow_categories";
-const EXPENSES_KEY = "cashflow_expenses";
-const INCOMES_KEY = "cashflow_incomes";
 export const STORAGE_UPDATED_EVENT = "cashflow-storage-updated";
 
 const readStoredList = <T,>(key: string): T[] => {
@@ -52,18 +36,3 @@ export const getCategoriesByType = (type: string): Category[] => {
   return getStoredCategories().filter((category) => category.type === type);
 };
 
-export const getStoredExpenses = (): ExpenseRecord[] => {
-  return readStoredList<ExpenseRecord>(EXPENSES_KEY);
-};
-
-export const setStoredExpenses = (expenses: ExpenseRecord[]) => {
-  writeStoredList(EXPENSES_KEY, expenses);
-};
-
-export const getStoredIncomes = (): IncomeRecord[] => {
-  return readStoredList<IncomeRecord>(INCOMES_KEY);
-};
-
-export const setStoredIncomes = (incomes: IncomeRecord[]) => {
-  writeStoredList(INCOMES_KEY, incomes);
-};

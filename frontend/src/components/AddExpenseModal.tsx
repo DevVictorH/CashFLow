@@ -1,32 +1,28 @@
 import { useEffect, useState } from "react";
-import { getCategoriesByType } from "../utils/categories";
-
-interface Expense {
-  source: string;
-  category: string;
-  amount: number;
-  createdAt?: number;
-}
+import { getCategories, type Category } from "../services/categoryService";
+import type { FinancialRequest } from "../services/financialService";
 
 interface AddExpenseModalProps {
   onClose: () => void;
-  onAdd: (expense: Expense) => void;
+  onAdd: (expense: FinancialRequest) => Promise<void>;
 }
 
 export default function AddExpenseModal({ onClose, onAdd }: AddExpenseModalProps) {
   const [source, setSource] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
-  const [availableCategories, setAvailableCategories] = useState<string[]>([]);
+  const [availableCategories, setAvailableCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    setAvailableCategories(getCategoriesByType("Expense").map((cat) => cat.name));
+    getCategories()
+      .then((categories) => setAvailableCategories(categories.filter((category) => category.type === "EXPENSE")))
+      .catch(() => setAvailableCategories([]));
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (source && category && amount) {
-      onAdd({ source, category, amount: parseFloat(amount), createdAt: Date.now() });
+      await onAdd({ description: source, categoryId: Number(category), amount: parseFloat(amount) });
       onClose();
     }
   };
@@ -55,9 +51,9 @@ export default function AddExpenseModal({ onClose, onAdd }: AddExpenseModalProps
               required
             >
               <option value="">Select Category</option>
-              {availableCategories.map((name) => (
-                <option key={name} value={name}>
-                  {name}
+              {availableCategories.map((availableCategory) => (
+                <option key={availableCategory.id} value={availableCategory.id}>
+                  {availableCategory.name}
                 </option>
               ))}
             </select>

@@ -1,20 +1,21 @@
 import { useState } from "react";
+import type { CategoryType } from "../services/categoryService";
 
 interface Props {
   onClose: () => void;
-  onAdd: (category: { name: string; type: string }) => void;
+  onAdd: (category: { name: string; type: CategoryType }) => Promise<void>;
 }
 
 export default function AddCategoryModal({ onClose, onAdd }: Props) {
   const [name, setName] = useState("");
-  const [type, setType] = useState("Income");
+  const [type, setType] = useState<CategoryType>("INCOME");
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!name) return;
 
-    onAdd({ name, type });
+    await onAdd({ name, type });
   };
 
   return (
@@ -46,10 +47,10 @@ export default function AddCategoryModal({ onClose, onAdd }: Props) {
           <select
             className="w-full p-3 border rounded-lg"
             value={type}
-            onChange={(e) => setType(e.target.value)}
+            onChange={(e) => setType(e.target.value as CategoryType)}
           >
-            <option>Income</option>
-            <option>Expense</option>
+            <option value="INCOME">Income</option>
+            <option value="EXPENSE">Expense</option>
           </select>
 
           {/* Button */}

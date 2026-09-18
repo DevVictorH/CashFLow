@@ -1,58 +1,47 @@
 import { useEffect, useState } from "react";
-import {
-  getStoredExpenses,
-  getStoredIncomes,
-  STORAGE_UPDATED_EVENT,
-  type ExpenseRecord,
-  type IncomeRecord,
-} from "../utils/categories";
+import { getCategories } from "../services/categoryService";
+import { expenseService, incomeService, type FinancialRecord } from "../services/financialService";
 
 type Transaction = {
   name: string;
   category: string;
   amount: number;
   type: "income" | "expense";
-  createdAt?: number;
 };
 
 const formatCurrency = (value: number) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-const getTransactions = (): Transaction[] => {
-  const incomes: Transaction[] = getStoredIncomes().map((income: IncomeRecord) => ({
+const getTransactions = async (): Promise<Transaction[]> => {
+  const [incomes, expenses, categories] = await Promise.all([
+    incomeService.list(),
+    expenseService.list(),
+    getCategories(),
+  ]);
+  const getCategoryName = (record: FinancialRecord) =>
+    record.categoryName ?? categories.find((category) => category.id === record.categoryId)?.name ?? "Sem categoria";
+
+  const incomeTransactions: Transaction[] = incomes.map((income) => ({
     name: income.source,
-    category: income.category,
+    category: getCategoryName(income),
     amount: income.amount,
     type: "income",
-    createdAt: income.createdAt,
   }));
-  const expenses: Transaction[] = getStoredExpenses().map((expense: ExpenseRecord) => ({
+  const expenseTransactions: Transaction[] = expenses.map((expense) => ({
     name: expense.source,
-    category: expense.category,
+    category: getCategoryName(expense),
     amount: expense.amount,
     type: "expense",
-    createdAt: expense.createdAt,
   }));
 
-  return [...incomes, ...expenses]
-    .sort((first, second) => (second.createdAt ?? 0) - (first.createdAt ?? 0))
-    .slice(0, 10);
+  return [...incomeTransactions, ...expenseTransactions].slice(0, 10);
 };
 
 export default function Table() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
-    const updateTransactions = () => setTransactions(getTransactions());
-
-    updateTransactions();
-    window.addEventListener(STORAGE_UPDATED_EVENT, updateTransactions);
-    window.addEventListener("storage", updateTransactions);
-
-    return () => {
-      window.removeEventListener(STORAGE_UPDATED_EVENT, updateTransactions);
-      window.removeEventListener("storage", updateTransactions);
-    };
+    getTransactions().then(setTransactions).catch(() => setTransactions([]));
   }, []);
 
   return (
@@ -77,7 +66,7 @@ export default function Table() {
             </tr>
           ) : (
             transactions.map((item, index) => (
-              <tr key={`${item.type}-${item.createdAt ?? index}`} className="border-t">
+              <tr key={`${item.type}-${item.name}-${index}`} className="border-t">
                 <td>{item.name}</td>
                 <td>{item.category}</td>
                 <td className="income">

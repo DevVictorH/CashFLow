@@ -2,31 +2,25 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import AddCategoryModal from "../components/AddCategoryModal";
 import { useEffect, useState } from "react";
-import {
-  getStoredCategories,
-  setStoredCategories,
-  type Category,
-} from "../utils/categories";
+import { createCategory, deleteCategory, getCategories, type Category, type CategoryType } from "../services/categoryService";
 
 export default function Categories() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
-    setCategories(getStoredCategories());
+    getCategories().then(setCategories).catch(() => setCategories([]));
   }, []);
 
-  const handleAddCategory = (category: Category) => {
-    const updated = [...categories, category];
-    setCategories(updated);
-    setStoredCategories(updated);
+  const handleAddCategory = async (category: { name: string; type: CategoryType }) => {
+    await createCategory(category.name, category.type);
+    setCategories(await getCategories());
     setOpenModal(false);
   };
 
-  const handleDeleteCategory = (indexToRemove: number) => {
-    const updated = categories.filter((_, index) => index !== indexToRemove);
-    setCategories(updated);
-    setStoredCategories(updated);
+  const handleDeleteCategory = async (categoryId: number) => {
+    await deleteCategory(categoryId);
+    setCategories((current) => current.filter((category) => category.id !== categoryId));
   };
 
   return (
@@ -62,19 +56,19 @@ export default function Categories() {
             </p>
           ) : (
             <div className="space-y-3">
-              {categories.map((cat, index) => (
+              {categories.map((cat) => (
                 <div
-                  key={index}
+                  key={cat.id}
                   className="flex items-center justify-between bg-gray-50 p-4 rounded-xl hover:bg-gray-100"
                 >
                   <div>
                     <p className="font-medium">{cat.name}</p>
-                    <p className="text-sm text-gray-500">{cat.type}</p>
+                    <p className="text-sm text-gray-500">{cat.type === "INCOME" ? "Income" : "Expense"}</p>
                   </div>
 
                   {/* Botão delete */}
                   <button
-                    onClick={() => handleDeleteCategory(index)}
+                    onClick={() => void handleDeleteCategory(cat.id)}
                     className="text-gray-400 hover:text-red-500 text-lg"
                   >
                     ✕

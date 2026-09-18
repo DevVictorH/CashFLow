@@ -66,7 +66,7 @@ public class CategoryController {
             return ResponseEntity.ok(list);
     }
 
-    @DeleteMapping
+        @DeleteMapping("/{categoryId}")
     @Operation(summary = "Deletar Categoria pelo ID", description = "Deleta uma categoria pelo ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Categoria deletada!"),
@@ -76,7 +76,13 @@ public class CategoryController {
             @ApiResponse(responseCode = "404", description = "Categoria não encontrada"),
             @ApiResponse(responseCode = "500", description = "Erro interno de servidor!")
     })
-    public ResponseEntity<Void> delete(@AuthenticationPrincipal UserEntity user) {
+    public ResponseEntity<Void> delete(@AuthenticationPrincipal UserEntity user, @PathVariable Long categoryId) {
+            service.deleteCategory(user.getId(), categoryId);
+            return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteLegacy(@AuthenticationPrincipal UserEntity user) {
             service.deleteCategory(user.getId());
             return ResponseEntity.noContent().build();
     }

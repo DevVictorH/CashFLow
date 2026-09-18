@@ -26,7 +26,7 @@ export type ProfileUpdateData = {
   password: string;
 };
 
-const authConfig = () => ({
+export const authConfig = () => ({
   headers: {
     Authorization: `Bearer ${localStorage.getItem("token") ?? ""}`,
   },

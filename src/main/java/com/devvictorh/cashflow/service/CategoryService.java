@@ -53,8 +53,18 @@ public class CategoryService {
         return mapper.toResponseList(list);
     }
 
-    public void deleteCategory(Long id) {
-        var categoryFound = repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Categoria não encontrada"));
+    public void deleteCategory(Long userId, Long categoryId) {
+        var categoryFound = repository.findById(categoryId)
+                .orElseThrow(() -> new ObjectNotFoundException("Categoria não encontrada"));
+        if (!categoryFound.getUserEntity().getId().equals(userId)) {
+            throw new ObjectNotFoundException("Categoria não encontrada");
+        }
+        repository.delete(categoryFound);
+    }
+
+    public void deleteCategory(Long categoryId) {
+        var categoryFound = repository.findById(categoryId)
+                .orElseThrow(() -> new ObjectNotFoundException("Categoria não encontrada"));
         repository.delete(categoryFound);
     }
 }

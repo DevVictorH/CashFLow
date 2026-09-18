@@ -2,31 +2,35 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import AddIncomeModal from "../components/AddIncomeModal";
 import { useEffect, useState } from "react";
-import {
-  getStoredIncomes,
-  setStoredIncomes,
-  type IncomeRecord,
-} from "../utils/categories";
+import { getCategories, type Category } from "../services/categoryService";
+import { incomeService, type FinancialRecord, type FinancialRequest } from "../services/financialService";
 
 export default function Incomes() {
-  const [incomes, setIncomes] = useState<IncomeRecord[]>([]);
+  const [incomes, setIncomes] = useState<FinancialRecord[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
-    setIncomes(getStoredIncomes());
+    Promise.all([incomeService.list(), getCategories()])
+      .then(([storedIncomes, storedCategories]) => {
+        setIncomes(storedIncomes);
+        setCategories(storedCategories);
+      })
+      .catch(() => {
+        setIncomes([]);
+        setCategories([]);
+      });
   }, []);
 
-  const handleAddIncome = (income: IncomeRecord) => {
-    const updated = [...incomes, income];
-    setIncomes(updated);
-    setStoredIncomes(updated);
+  const handleAddIncome = async (income: FinancialRequest) => {
+    await incomeService.create(income);
+    setIncomes(await incomeService.list());
     setOpenModal(false);
   };
 
-  const handleDeleteIncome = (indexToRemove: number) => {
-    const updated = incomes.filter((_, index) => index !== indexToRemove);
-    setIncomes(updated);
-    setStoredIncomes(updated);
+  const handleDeleteIncome = async (incomeId: number) => {
+    await incomeService.remove(incomeId);
+    setIncomes((current) => current.filter((income) => income.id !== incomeId));
   };
 
   return (
@@ -62,19 +66,21 @@ export default function Incomes() {
             </p>
           ) : (
             <div className="space-y-3">
-              {incomes.map((income, index) => (
+              {incomes.map((income) => (
                 <div
-                  key={index}
+                  key={income.id}
                   className="flex items-center justify-between bg-gray-50 p-4 rounded-xl hover:bg-gray-100"
                 >
                   <div>
                     <p className="font-medium">{income.source}</p>
-                    <p className="text-sm text-gray-500">{income.category} - R$ {income.amount.toFixed(2)}</p>
+                    <p className="text-sm text-gray-500">
+                      {income.categoryName ?? categories.find((category) => category.id === income.categoryId)?.name ?? "Sem categoria"} - R$ {income.amount.toFixed(2)}
+                    </p>
                   </div>
 
                   {/* Botão delete */}
                   <button
-                    onClick={() => handleDeleteIncome(index)}
+                    onClick={() => void handleDeleteIncome(income.id)}
                     className="text-gray-400 hover:text-red-500 text-lg"
                   >
                     ✕
