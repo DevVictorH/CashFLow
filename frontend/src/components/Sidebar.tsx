@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 export default function Sidebar() {
   const items = [
     { name: "Dashboard", path: "/dashboard" },
-    { name: "Category", path: "/categories" },
-    { name: "Income", path: "/income" },
-    { name: "Expense", path: "/expense" },
+    { name: "Categoria", path: "/categories" },
+    { name: "Receitas", path: "/income" },
+    { name: "Despesas", path: "/expense" },
     // { name: "Filters", path: "/filters" },
   ];
 

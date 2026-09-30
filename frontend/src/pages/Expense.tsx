@@ -36,15 +36,12 @@ export default function Expenses() {
   return (
     <div className="flex bg-gray-100 min-h-screen">
 
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Conteúdo */}
       <div className="flex-1 p-6 flex flex-col gap-6">
 
         <Header />
 
-        {/* Header da página */}
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">Todas despesas</h1>
 
@@ -58,7 +55,7 @@ export default function Expenses() {
 
         {/* Card */}
         <div className="bg-white rounded-2xl shadow p-6">
-          <h2 className="font-semibold mb-4">Expense Sources</h2>
+          <h2 className="font-semibold mb-4">Despesas</h2>
 
           {expenses.length === 0 ? (
             <p className="text-gray-500">

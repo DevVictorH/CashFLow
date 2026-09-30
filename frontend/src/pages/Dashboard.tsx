@@ -4,6 +4,7 @@ import Card from "../components/Card";
 import Table from "../components/Table";
 import { useEffect, useState } from "react";
 import { expenseService, incomeService } from "../services/financialService";
+import Charts from "../components/Charts";
 
 const formatCurrency = (value: number) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -36,9 +37,11 @@ export default function Dashboard() {
           <Card title="Despesas" value={formatCurrency(expenseTotal)} color="text-red-500" />
         </div>
 
-        {/* <Charts /> */}
+        
 
         <Table />
+
+        <Charts /> 
       </div>
     </div>
   );

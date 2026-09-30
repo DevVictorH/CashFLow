@@ -36,15 +36,12 @@ export default function Incomes() {
   return (
     <div className="flex bg-gray-100 min-h-screen">
 
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Conteúdo */}
       <div className="flex-1 p-6 flex flex-col gap-6">
 
         <Header />
 
-        {/* Header da página */}
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">Todas receitas</h1>
 
@@ -58,7 +55,7 @@ export default function Incomes() {
 
         {/* Card */}
         <div className="bg-white rounded-2xl shadow p-6">
-          <h2 className="font-semibold mb-4">Income Sources</h2>
+          <h2 className="font-semibold mb-4">Receitas</h2>
 
           {incomes.length === 0 ? (
             <p className="text-gray-500">

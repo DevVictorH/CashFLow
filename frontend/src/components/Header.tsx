@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { FiLogOut, FiUser } from "react-icons/fi";
+import { FiLogOut, FiMoon, FiSun, FiUser } from "react-icons/fi";
+import { useTheme } from "./ChangeTheme";
 
 export default function Header() {
   const navigate = useNavigate();
   const userName = localStorage.getItem("userName") ?? "Usuário";
+  const { darkMode, toggleTheme } = useTheme();
+
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -22,6 +25,15 @@ export default function Header() {
       <div className="flex items-center gap-4">
 
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            aria-label="Toggle theme"
+            className="theme-toggle"
+            title="Trocar tema"
+            onClick={toggleTheme}
+          >
+            {darkMode ? <FiSun /> : <FiMoon />}
+          </button>
           <button
             type="button"
             onClick={() => navigate("/profile")}

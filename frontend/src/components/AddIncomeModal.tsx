@@ -30,10 +30,10 @@ export default function AddIncomeModal({ onClose, onAdd }: AddIncomeModalProps) 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg w-96">
-        <h2 className="text-xl font-bold mb-4">Add Income</h2>
+        <h2 className="text-xl font-bold mb-4">Add Receita</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Income Source</label>
+            <label className="block text-sm font-medium mb-1">Receita</label>
             <input
               type="text"
               value={source}
@@ -43,14 +43,14 @@ export default function AddIncomeModal({ onClose, onAdd }: AddIncomeModalProps) 
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Category</label>
+            <label className="block text-sm font-medium mb-1">Categoria</label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="w-full p-2 border rounded"
               required
             >
-              <option value="">Select Category</option>
+              <option value="">Selecionar Categoria</option>
               {availableCategories.map((availableCategory) => (
                 <option key={availableCategory.id} value={availableCategory.id}>
                   {availableCategory.name}
@@ -59,7 +59,7 @@ export default function AddIncomeModal({ onClose, onAdd }: AddIncomeModalProps) 
             </select>
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Amount</label>
+            <label className="block text-sm font-medium mb-1">Quantia</label>
             <input
               type="number"
               step="0.01"
@@ -70,7 +70,7 @@ export default function AddIncomeModal({ onClose, onAdd }: AddIncomeModalProps) 
             />
           </div>
           <div className="flex justify-end gap-2">
-            <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-200 rounded">Cancel</button>
+            <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-200 rounded">Cancelar</button>
             <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">Add</button>
           </div>
         </form>

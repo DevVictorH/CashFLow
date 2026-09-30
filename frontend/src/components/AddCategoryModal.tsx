@@ -31,14 +31,14 @@ export default function AddCategoryModal({ onClose, onAdd }: Props) {
           ✕
         </button>
 
-        <h2 className="text-xl font-bold mb-6">Add Category</h2>
+        <h2 className="text-xl font-bold mb-6">Add Categoria</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
 
           {/* Name */}
           <input
             type="text"
-            placeholder="e.g., Freelance, Salary, Groceries"
+            placeholder="Ex: Freelance, Salario, Compras"
             className="w-full p-3 border rounded-lg"
             onChange={(e) => setName(e.target.value)}
           />
@@ -49,14 +49,14 @@ export default function AddCategoryModal({ onClose, onAdd }: Props) {
             value={type}
             onChange={(e) => setType(e.target.value as CategoryType)}
           >
-            <option value="INCOME">Income</option>
-            <option value="EXPENSE">Expense</option>
+            <option value="INCOME">Receita</option>
+            <option value="EXPENSE">Despesa</option>
           </select>
 
           {/* Button */}
           <div className="flex justify-end">
             <button className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700">
-              Add Category
+              Add Categoria
             </button>
           </div>
 

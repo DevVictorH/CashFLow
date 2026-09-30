@@ -26,15 +26,12 @@ export default function Categories() {
   return (
     <div className="flex bg-gray-100 min-h-screen">
       
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Conteúdo */}
       <div className="flex-1 p-6 flex flex-col gap-6">
         
         <Header />
 
-        {/* Header da página */}
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">Todas categorias</h1>
 
@@ -48,7 +45,7 @@ export default function Categories() {
 
         {/* Card */}
         <div className="bg-white rounded-2xl shadow p-6">
-          <h2 className="font-semibold mb-4">Category Sources</h2>
+          <h2 className="font-semibold mb-4">Categorias</h2>
 
           {categories.length === 0 ? (
             <p className="text-gray-500">
@@ -63,7 +60,7 @@ export default function Categories() {
                 >
                   <div>
                     <p className="font-medium">{cat.name}</p>
-                    <p className="text-sm text-gray-500">{cat.type === "INCOME" ? "Income" : "Expense"}</p>
+                    <p className="text-sm text-gray-500">{cat.type === "INCOME" ? "Receita" : "Despesa"}</p>
                   </div>
 
                   {/* Botão delete */}
@@ -81,7 +78,6 @@ export default function Categories() {
 
       </div>
 
-      {/* Modal */}
       {openModal && (
         <AddCategoryModal
           onClose={() => setOpenModal(false)}
