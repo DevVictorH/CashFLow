@@ -3,22 +3,28 @@ import Header from "../components/Header";
 import Card from "../components/Card";
 import Table from "../components/Table";
 import { useEffect, useState } from "react";
-import { expenseService, incomeService } from "../services/financialService";
+import { expenseService, incomeService, type FinancialRecord } from "../services/financialService";
 import Charts from "../components/Charts";
 
 const formatCurrency = (value: number) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 export default function Dashboard() {
-  const [incomeTotal, setIncomeTotal] = useState(0);
-  const [expenseTotal, setExpenseTotal] = useState(0);
+  const [incomes, setIncomes] = useState<FinancialRecord[]>([]);
+  const [expenses, setExpenses] = useState<FinancialRecord[]>([]);
 
   useEffect(() => {
     Promise.all([incomeService.list(), expenseService.list()]).then(([incomes, expenses]) => {
-      setIncomeTotal(incomes.reduce((total, income) => total + income.amount, 0));
-      setExpenseTotal(expenses.reduce((total, expense) => total + expense.amount, 0));
+      setIncomes(incomes);
+      setExpenses(expenses);
+    }).catch(() => {
+      setIncomes([]);
+      setExpenses([]);
     });
   }, []);
+
+  const incomeTotal = incomes.reduce((total, income) => total + income.amount, 0);
+  const expenseTotal = expenses.reduce((total, expense) => total + expense.amount, 0);
 
   return (
     <div className="flex bg-gray-100 min-h-screen">
@@ -41,7 +47,7 @@ export default function Dashboard() {
 
         <Table />
 
-        <Charts /> 
+        <Charts incomes={incomes} expenses={expenses} />
       </div>
     </div>
   );

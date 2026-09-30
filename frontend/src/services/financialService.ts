@@ -7,6 +7,7 @@ export type FinancialRecord = {
   categoryId: number | null;
   categoryName: string | null;
   amount: number;
+  createdAt: string | null;
 };
 
 type FinancialResponse = {
@@ -15,6 +16,7 @@ type FinancialResponse = {
   amount: number;
   categoryId: number | null;
   categoryName: string | null;
+  createdAt: string | null;
 };
 
 export type FinancialRequest = {
@@ -29,6 +31,7 @@ const toRecord = (item: FinancialResponse): FinancialRecord => ({
   categoryId: item.categoryId,
   categoryName: item.categoryName,
   amount: item.amount,
+  createdAt: item.createdAt,
 });
 
 const createFinancialService = (resource: "expenses" | "incomes") => ({
