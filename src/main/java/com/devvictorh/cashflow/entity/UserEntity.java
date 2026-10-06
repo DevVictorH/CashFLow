@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -41,6 +42,12 @@ public class UserEntity implements UserDetails {
 
     @OneToMany(mappedBy = "userEntity")
     private List<GoalEntity> goalEntities;
+
+    @Column(name = "codigo_recuperacao", length = 10)
+    private String codigoRecuperacao;
+
+    @Column(name = "codigo_expiracao")
+    private LocalDateTime codigoExpiracao;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,13 +1,12 @@
 package com.devvictorh.cashflow.controller;
 
-import com.devvictorh.cashflow.dto.request.AuthenticationRequestDTO;
-import com.devvictorh.cashflow.dto.request.ProfileUpdateRequestDTO;
-import com.devvictorh.cashflow.dto.request.UserRequestDTO;
+import com.devvictorh.cashflow.dto.request.*;
 import com.devvictorh.cashflow.dto.response.LoginResponseDTO;
 import com.devvictorh.cashflow.dto.response.UserResponseDTO;
 import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.security.TokenService;
+import com.devvictorh.cashflow.service.EmailService;
 import com.devvictorh.cashflow.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,12 +19,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
+import java.util.Random;
 
 @Tag(name = "Auth", description = "Gerenciamento de Autenticação do usuário")
 @RestController
@@ -36,6 +39,9 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserService service;
     private final TokenService tokenService;
+    private final UserRepository repository;
+    private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     @Operation(summary = "Logar Usuario", description = "Faz o login de um usuário")
@@ -73,5 +79,55 @@ public class AuthController {
     public ResponseEntity<Void> register(@RequestBody UserRequestDTO dto){
             service.saveUser(dto);
             return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/recovery-password")
+    public ResponseEntity<String> solicitarRecuperacao(@RequestBody @Valid RecoveryPasswordRequestDTO request) {
+        UserEntity user = (UserEntity) repository.findByEmail(request.email());
+
+        if (user == null) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("E-mail não encontrado.");
+        }
+
+        String codigo = String.valueOf(new Random().nextInt(900000) + 100000);
+
+        user.setCodigoRecuperacao(codigo);
+        user.setCodigoExpiracao(LocalDateTime.now().plusMinutes(15));
+        repository.save(user);
+
+        try {
+            emailService.sendEmail(user.getEmail(), "Recuperação de Senha",
+                    "Seu código de recuperação é: " + codigo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao enviar e-mail: " + e.getMessage());
+        }
+        return ResponseEntity.ok("Código enviado para seu e-mail.");
+    }
+
+    @PostMapping("/redefine-password")
+    public ResponseEntity<String> redefinirSenha(@RequestBody @Valid RedefinePasswordRequestDTO request) {
+        UserEntity user = (UserEntity) repository.findByEmail(request.email());
+
+        if (user == null) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("E-mail não encontrado.");
+        }
+
+        if (!request.code().equals(user.getCodigoRecuperacao()) ||
+                user.getCodigoExpiracao().isBefore(LocalDateTime.now())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Código inválido ou expirado.");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.newPassword()));
+        user.setCodigoRecuperacao(null);
+        user.setCodigoExpiracao(null);
+        repository.save(user);
+
+        return ResponseEntity.ok("Senha redefinida com sucesso.");
     }
 }
