@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/recovery-password", "/api/auth/change-password").permitAll()
+                        .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/recovery-password", "/api/auth/verify-recovery-code", "/api/auth/change-password").permitAll()
                         .requestMatchers("/api/auth/**").authenticated()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
                         .requestMatchers("/api/users/**").hasRole("ADMIN")

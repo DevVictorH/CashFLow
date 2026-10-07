@@ -160,6 +160,36 @@ class AuthControllerTest {
         );
     }
 
+        @Test
+        void shouldVerifyRecoveryCode() throws Exception {
+                user.setCodigoRecuperacao("123456");
+                user.setCodigoExpiracao(java.time.LocalDateTime.now().plusMinutes(10));
+                RecoveryCodeRequestDTO request = new RecoveryCodeRequestDTO("victor@email.com", "123456");
+
+                Mockito.when(repository.findByEmail("victor@email.com")).thenReturn(user);
+
+                mvc.perform(MockMvcRequestBuilders.post("/api/auth/verify-recovery-code")
+                                                .with(csrf())
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(objectMapper.writeValueAsString(request)))
+                                .andExpect(status().isOk());
+        }
+
+        @Test
+        void shouldRejectInvalidRecoveryCode() throws Exception {
+                user.setCodigoRecuperacao("123456");
+                user.setCodigoExpiracao(java.time.LocalDateTime.now().plusMinutes(10));
+                RecoveryCodeRequestDTO request = new RecoveryCodeRequestDTO("victor@email.com", "654321");
+
+                Mockito.when(repository.findByEmail("victor@email.com")).thenReturn(user);
+
+                mvc.perform(MockMvcRequestBuilders.post("/api/auth/verify-recovery-code")
+                                                .with(csrf())
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(objectMapper.writeValueAsString(request)))
+                                .andExpect(status().isBadRequest());
+        }
+
     @Test
     void shouldReturnNotFoundWhenEmailDoesNotExist() throws Exception {
 
@@ -210,7 +240,7 @@ class AuthControllerTest {
         String json = objectMapper.writeValueAsString(request);
 
         mvc.perform(
-                        MockMvcRequestBuilders.post("/api/auth/redefine-password")
+                        MockMvcRequestBuilders.post("/api/auth/change-password")
                                 .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json)

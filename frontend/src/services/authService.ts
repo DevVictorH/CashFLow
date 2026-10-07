@@ -45,6 +45,18 @@ export const register = async (data: RegisterData) => {
   await axios.post(`${API_URL}/register`, data);
 };
 
+export const requestPasswordRecovery = async (email: string) => {
+  await axios.post(`${API_URL}/recovery-password`, { email });
+};
+
+export const verifyRecoveryCode = async (email: string, code: string) => {
+  await axios.post(`${API_URL}/verify-recovery-code`, { email, code });
+};
+
+export const resetPassword = async (email: string, code: string, newPassword: string) => {
+  await axios.post(`${API_URL}/change-password`, { email, code, newPassword });
+};
+
 export const getProfile = async () => {
   const response = await axios.get(`${API_URL}/me`, authConfig());
   return response.data as ProfileData;

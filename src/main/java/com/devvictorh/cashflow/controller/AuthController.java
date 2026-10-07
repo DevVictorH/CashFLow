@@ -108,6 +108,23 @@ public class AuthController {
         return ResponseEntity.ok("Código enviado para seu e-mail.");
     }
 
+    @PostMapping("/verify-recovery-code")
+    public ResponseEntity<String> verifyRecoveryCode(@RequestBody @Valid RecoveryCodeRequestDTO request) {
+        UserEntity user = (UserEntity) repository.findByEmail(request.email());
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("E-mail não encontrado.");
+        }
+
+        if (user.getCodigoExpiracao() == null ||
+                !request.code().equals(user.getCodigoRecuperacao()) ||
+                user.getCodigoExpiracao().isBefore(LocalDateTime.now())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Código inválido ou expirado.");
+        }
+
+        return ResponseEntity.ok("Código validado.");
+    }
+
     @PostMapping("/change-password")
     public ResponseEntity<String> changePassword(@RequestBody @Valid ChangePasswordRequestDTO request) {
         UserEntity user = (UserEntity) repository.findByEmail(request.email());
@@ -118,7 +135,8 @@ public class AuthController {
                     .body("E-mail não encontrado.");
         }
 
-        if (!request.code().equals(user.getCodigoRecuperacao()) ||
+        if (user.getCodigoExpiracao() == null ||
+            !request.code().equals(user.getCodigoRecuperacao()) ||
                 user.getCodigoExpiracao().isBefore(LocalDateTime.now())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Código inválido ou expirado.");
         }

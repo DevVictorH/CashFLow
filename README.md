@@ -42,10 +42,14 @@ API RESTful para gerenciamento de receitas e despesas, desenvolvida com **Java +
 * **PostgreSQL** rodando localmente (ou ajuste para H2 no `application.properties`).
 
 ### 2. Variáveis de Ambiente
-Para segurança, a API requer uma chave secreta para o JWT. Você pode defini-la no seu terminal ou no seu arquivo de propriedades:
+Para segurança, a API requer uma chave secreta para o JWT e uma senha de app do Gmail para enviar os códigos de recuperação. Ative a verificação em duas etapas na conta Gmail e gere uma senha de app; não use a senha normal da conta. Defina as variáveis no terminal:
 ```bash
 export JWT_SECRET=sua_chave_secreta_aqui
+export MAIL_PASSWORD=sua_senha_de_app_gmail
+```
 
+Para executar localmente, mantenha as variáveis exportadas e rode:
+```bash
 # Clone este repositório
 git clone [https://github.com/seu-usuario/cashflow-api.git](https://github.com/seu-usuario/cashflow-api.git)
 
@@ -72,7 +76,14 @@ Você pode rodar toda a aplicação (API + banco de dados) utilizando Docker, se
 
 ---
 
-Na raiz do projeto, execute:
+Crie um arquivo `.env` na raiz do projeto (ele é ignorado pelo Git) e informe as variáveis:
+
+```env
+JWT_SECRET=sua_chave_secreta_aqui
+MAIL_PASSWORD=sua_senha_de_app_gmail
+```
+
+Depois, na raiz do projeto, execute:
 
 ```bash
 docker compose up --build -d
