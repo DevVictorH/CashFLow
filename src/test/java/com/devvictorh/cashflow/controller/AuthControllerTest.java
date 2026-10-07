@@ -1,7 +1,6 @@
 package com.devvictorh.cashflow.controller;
 
 import com.devvictorh.cashflow.dto.request.*;
-import com.devvictorh.cashflow.dto.response.IncomeResponseDTO;
 import com.devvictorh.cashflow.entity.UserEntity;
 import com.devvictorh.cashflow.entity.enums.UserRole;
 import com.devvictorh.cashflow.exceptions.BusinessException;
@@ -9,7 +8,6 @@ import com.devvictorh.cashflow.repository.UserRepository;
 import com.devvictorh.cashflow.security.TokenService;
 import com.devvictorh.cashflow.service.EmailService;
 import com.devvictorh.cashflow.service.UserService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -23,8 +21,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import tools.jackson.databind.ObjectMapper;
-
-import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -198,8 +194,8 @@ class AuthControllerTest {
                 java.time.LocalDateTime.now().plusMinutes(10)
         );
 
-        RedefinePasswordRequestDTO request =
-                new RedefinePasswordRequestDTO(
+        ChangePasswordRequestDTO request =
+                new ChangePasswordRequestDTO(
                         "victor@email.com",
                         "123456",
                         "novaSenha123"

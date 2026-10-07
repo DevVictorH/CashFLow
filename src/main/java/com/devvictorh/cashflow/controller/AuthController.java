@@ -82,7 +82,7 @@ public class AuthController {
     }
 
     @PostMapping("/recovery-password")
-    public ResponseEntity<String> solicitarRecuperacao(@RequestBody @Valid RecoveryPasswordRequestDTO request) {
+    public ResponseEntity<String> requestRecovery(@RequestBody @Valid RecoveryPasswordRequestDTO request) {
         UserEntity user = (UserEntity) repository.findByEmail(request.email());
 
         if (user == null) {
@@ -108,8 +108,8 @@ public class AuthController {
         return ResponseEntity.ok("Código enviado para seu e-mail.");
     }
 
-    @PostMapping("/redefine-password")
-    public ResponseEntity<String> redefinirSenha(@RequestBody @Valid RedefinePasswordRequestDTO request) {
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody @Valid ChangePasswordRequestDTO request) {
         UserEntity user = (UserEntity) repository.findByEmail(request.email());
 
         if (user == null) {
