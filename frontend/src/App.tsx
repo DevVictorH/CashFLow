@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import ForgotPassword from "./pages/ForgotPassword";
+import History from "./pages/History";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/categories" element={<Categories />} />
           <Route path="/expense" element={<Expense />} />
           <Route path="/income" element={<Income />} />
+          <Route path="/history" element={<History />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>

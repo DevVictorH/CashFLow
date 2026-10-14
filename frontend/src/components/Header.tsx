@@ -15,12 +15,8 @@ export default function Header() {
   };
 
   return (
-    <div className="flex justify-between items-center bg-white p-4 shadow-sm rounded-xl">
-      <input
-        type="text"
-        placeholder="Pesquisar..."
-        className="border p-2 rounded-lg w-1/3"
-      />
+    <div className="flex justify-end items-center bg-white p-4 shadow-sm rounded-xl">
+      
 
       <div className="flex items-center gap-4">
 

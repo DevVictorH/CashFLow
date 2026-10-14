@@ -1,75 +1,93 @@
 import { useEffect, useState } from "react";
-import { getCategories } from "../services/categoryService";
-import { expenseService, incomeService, type FinancialRecord } from "../services/financialService";
-
-type Transaction = {
-  name: string;
-  category: string;
-  amount: number;
-  type: "income" | "expense";
-};
+import { getTransactions, type Transaction } from "../services/transactionService";
 
 const formatCurrency = (value: number) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-const getTransactions = async (): Promise<Transaction[]> => {
-  const [incomes, expenses, categories] = await Promise.all([
-    incomeService.list(),
-    expenseService.list(),
-    getCategories(),
-  ]);
-  const getCategoryName = (record: FinancialRecord) =>
-    record.categoryName ?? categories.find((category) => category.id === record.categoryId)?.name ?? "Sem categoria";
-
-  const incomeTransactions: Transaction[] = incomes.map((income) => ({
-    name: income.source,
-    category: getCategoryName(income),
-    amount: income.amount,
-    type: "income",
-  }));
-  const expenseTransactions: Transaction[] = expenses.map((expense) => ({
-    name: expense.source,
-    category: getCategoryName(expense),
-    amount: expense.amount,
-    type: "expense",
-  }));
-
-  return [...incomeTransactions, ...expenseTransactions].slice(0, 10);
+type TableProps = {
+  showAll?: boolean;
+  showDate?: boolean;
 };
 
-export default function Table() {
+type SortKey = "name" | "createdAt" | "amount";
+type SortDirection = "ascending" | "descending";
+
+export default function Table({ showAll = false, showDate = false }: TableProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [sortKey, setSortKey] = useState<SortKey | null>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>("ascending");
 
   useEffect(() => {
     getTransactions().then(setTransactions).catch(() => setTransactions([]));
   }, []);
 
+  const handleSort = (key: SortKey) => {
+    if (sortKey === key) {
+      setSortDirection((direction) => direction === "ascending" ? "descending" : "ascending");
+    } else {
+      setSortKey(key);
+      setSortDirection("ascending");
+    }
+  };
+
+  const displayedTransactions = showAll ? transactions : transactions.slice(0, 5);
+  const sortedTransactions = [...displayedTransactions].sort((first, second) => {
+    if (!sortKey) return 0;
+
+    let comparison = 0;
+    if (sortKey === "name") {
+      comparison = first.name.localeCompare(second.name, "pt-BR", { sensitivity: "base" });
+    } else if (sortKey === "amount") {
+      comparison = first.amount - second.amount;
+    } else {
+      const firstDate = first.createdAt ? new Date(first.createdAt).getTime() : 0;
+      const secondDate = second.createdAt ? new Date(second.createdAt).getTime() : 0;
+      comparison = firstDate - secondDate;
+    }
+
+    return sortDirection === "ascending" ? comparison : -comparison;
+  });
+
+  const sortLabel = (label: string, key: SortKey) => (
+    <button
+      type="button"
+      onClick={() => handleSort(key)}
+      className="cursor-pointer px-2 py-1 font-semibold hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    >
+      {label}{sortKey === key ? (sortDirection === "ascending" ? " ↑" : " ↓") : ""}
+    </button>
+  );
+
   return (
     <div className="bg-white p-4 rounded-2xl shadow-sm">
-      <h2 className="mb-4 font-semibold">Transações recentes</h2>
+      <h2 className="mb-4 font-semibold">{showAll ? "Histórico de transações" : "Transações recentes"}</h2>
 
       <table className="w-full text-center">
         <thead>
           <tr className="text-gray-500">
-            <th>Nome</th>
+            <th aria-sort={sortKey === "name" ? sortDirection : "none"}>{sortLabel("Nome", "name")}</th>
             <th>Categoria</th>
-            <th>Quantia</th>
+            {showDate && <th aria-sort={sortKey === "createdAt" ? sortDirection : "none"}>{sortLabel("Data", "createdAt")}</th>}
+            <th aria-sort={sortKey === "amount" ? sortDirection : "none"}>{sortLabel("Quantia", "amount")}</th>
           </tr>
         </thead>
 
         <tbody>
           {transactions.length === 0 ? (
             <tr>
-              <td colSpan={3} className="border-t py-4 text-gray-500">
+              <td colSpan={showDate ? 4 : 3} className="border-t py-4 text-gray-500">
                 Nenhuma transação registrada.
               </td>
             </tr>
           ) : (
-            transactions.map((item, index) => (
-              <tr key={`${item.type}-${item.name}-${index}`} className="border-t">
+            sortedTransactions.map((item) => (
+              <tr key={`${item.type}-${item.id}`} className="border-t">
                 <td>{item.name}</td>
                 <td>{item.category}</td>
-                <td className="income">
+                {showDate && (
+                  <td>{item.createdAt ? new Date(item.createdAt).toLocaleDateString("pt-BR") : "-"}</td>
+                )}
+                <td >
                   {item.type === "income" ? "+" : "-"}{formatCurrency(item.amount)}
                 </td>
               </tr>

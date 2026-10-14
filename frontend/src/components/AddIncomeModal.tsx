@@ -33,7 +33,7 @@ export default function AddIncomeModal({ onClose, onAdd }: AddIncomeModalProps) 
         <h2 className="text-xl font-bold mb-4">Add Receita</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Receita</label>
+            <label className="block text-sm font-medium mb-1">Nome da receita</label>
             <input
               type="text"
               value={source}

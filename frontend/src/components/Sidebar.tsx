@@ -6,6 +6,7 @@ export default function Sidebar() {
     { name: "Categoria", path: "/categories" },
     { name: "Receitas", path: "/income" },
     { name: "Despesas", path: "/expense" },
+    { name: "Histórico", path: "/history" },
     // { name: "Filters", path: "/filters" },
   ];
 

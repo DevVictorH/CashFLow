@@ -33,7 +33,7 @@ export default function AddExpenseModal({ onClose, onAdd }: AddExpenseModalProps
         <h2 className="text-xl font-bold mb-4">Add Despesa</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Despesa</label>
+            <label className="block text-sm font-medium mb-1">Nome da despesa</label>
             <input
               type="text"
               value={source}

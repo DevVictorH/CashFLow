@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
             title = "CashFlow API",
             version = "v1",
-            description = "Api para gerenciamento de receitas e despesas",
+            description = "Api para gerenciamento de finanças pessoais",
             contact = @Contact(
                 name = "Victor Hugo",
                 email = "victorvilto@gmail.com")
