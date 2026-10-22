@@ -1,4 +1,5 @@
-import sobreImage from "../assets/sobre.png";
+import sobreLightImage from "../assets/sobre-light.webp";
+import sobreDarkImage from "../assets/sobre-dark.webp";
 import "../styles/About.css";
 import { HeaderHome } from "../components/HeaderHome";
 import { FooterHome } from "../components/FooterHome";
@@ -25,9 +26,15 @@ export default function About() {
 
                 <div className="about-image-wrap">
                     <img
-                        src={sobreImage}
+                        src={sobreLightImage}
                         alt="Celular com gráficos financeiros ao lado de uma carteira, moedas e uma lista"
-                        className="about-image"
+                        className="about-image about-image--light"
+                    />
+                    <img
+                        src={sobreDarkImage}
+                        alt=""
+                        aria-hidden="true"
+                        className="about-image about-image--dark"
                     />
                 </div>
             </main>

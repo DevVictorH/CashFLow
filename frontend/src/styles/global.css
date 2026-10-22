@@ -66,6 +66,229 @@ body.theme-dark {
   color: var(--text-primary);
 }
 
+.home-hero {
+  background:
+    radial-gradient(ellipse at 18% 24%, rgba(139, 92, 246, 0.13), transparent 38%),
+    radial-gradient(ellipse at 82% 76%, rgba(124, 58, 237, 0.12), transparent 42%),
+    linear-gradient(130deg, #f5f3ff 0%, #ffffff 48%, #faf5ff 100%);
+}
+
+.home-hero::before {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(124, 58, 237, 0.2) 1px, transparent 1px);
+  background-size: 28px 28px;
+  content: "";
+  mask-image: linear-gradient(to bottom, transparent, black 24%, black 76%, transparent);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.home-hero__art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.home-hero__orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(76vw, 860px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(139, 92, 246, 0.12);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 42px rgba(139, 92, 246, 0.025),
+    0 0 0 100px rgba(139, 92, 246, 0.02);
+  transform: translate(-50%, -50%);
+}
+
+.home-hero__spark {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 2px solid rgba(124, 58, 237, 0.65);
+  border-radius: 50%;
+  box-shadow: 0 0 18px rgba(124, 58, 237, 0.4);
+}
+
+.home-hero__spark--one {
+  top: 24%;
+  left: 25%;
+}
+
+.home-hero__spark--two {
+  right: 28%;
+  bottom: 22%;
+  width: 6px;
+  height: 6px;
+  background: #a78bfa;
+}
+
+.home-hero__chart-card,
+.home-hero__bars-card {
+  position: absolute;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 18px 50px rgba(76, 29, 149, 0.1);
+  color: #6b5b87;
+  text-align: left;
+  backdrop-filter: blur(12px);
+}
+
+.home-hero__chart-card {
+  top: 3%;
+  right: 7%;
+  width: 190px;
+  padding: 14px 15px 11px;
+  transform: rotate(4deg);
+}
+
+.home-hero__card-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.home-hero__card-icon {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 7px;
+  background: #ede9fe;
+  color: #7c3aed;
+  font-size: 15px;
+}
+
+.home-hero__chart-card svg {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  overflow: visible;
+}
+
+.home-hero__chart-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #9a8eac;
+  font-size: 8px;
+}
+
+.home-hero__bars-card {
+  right: 12%;
+  bottom: 9%;
+  width: 178px;
+  padding: 14px 16px 12px;
+  transform: rotate(-4deg);
+}
+
+.home-hero__bars-label {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.home-hero__bars {
+  display: flex;
+  height: 32px;
+  align-items: end;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.home-hero__bars i {
+  flex: 1;
+  height: 45%;
+  border-radius: 4px 4px 1px 1px;
+  background: linear-gradient(to top, #8b5cf6, #c4b5fd);
+  opacity: 0.72;
+}
+
+.home-hero__bars i:nth-child(2),
+.home-hero__bars i:nth-child(6) {
+  height: 72%;
+}
+
+.home-hero__bars i:nth-child(3),
+.home-hero__bars i:nth-child(5) {
+  height: 58%;
+}
+
+.home-hero__bars i:nth-child(4) {
+  height: 100%;
+  opacity: 1;
+}
+
+.theme-dark .home-hero__chart-card,
+.theme-dark .home-hero__bars-card {
+  border-color: rgba(196, 181, 253, 0.2);
+  background: rgba(31, 24, 48, 0.76);
+  color: #ddd2f7;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+}
+
+.theme-dark .home-hero__chart-labels {
+  color: #a89bbd;
+}
+
+.theme-dark .home-hero__card-icon {
+  background: rgba(139, 92, 246, 0.2);
+  color: #c4b5fd;
+}
+
+.theme-dark .home-hero {
+  background:
+    radial-gradient(ellipse at 18% 24%, rgba(139, 92, 246, 0.2), transparent 38%),
+    radial-gradient(ellipse at 82% 76%, rgba(124, 58, 237, 0.18), transparent 42%),
+    linear-gradient(130deg, #171126 0%, #111827 48%, #1b1230 100%);
+}
+
+.theme-dark .home-hero::before {
+  opacity: 0.22;
+}
+
+@media (max-width: 900px) {
+  .home-hero__chart-card {
+    top: 5%;
+    right: 4%;
+    width: 155px;
+  }
+
+  .home-hero__bars-card {
+    right: 5%;
+    bottom: 5%;
+    width: 150px;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-hero__chart-card {
+    top: 4%;
+    right: -24px;
+    width: 132px;
+    opacity: 0.72;
+    transform: rotate(4deg) scale(0.84);
+    transform-origin: top right;
+  }
+
+  .home-hero__bars-card {
+    right: -22px;
+    bottom: 3%;
+    opacity: 0.72;
+    transform: rotate(-4deg) scale(0.82);
+    transform-origin: bottom right;
+  }
+
+  .home-hero__orbit {
+    width: 115vw;
+  }
+}
+
 .theme-dark .bg-white,
 .theme-dark .bg-gray-50,
 .theme-dark .bg-gray-100,

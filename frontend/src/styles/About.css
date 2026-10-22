@@ -126,6 +126,18 @@
   object-fit: cover;
 }
 
+.about-image--dark {
+  display: none;
+}
+
+body.theme-dark .about-image--light {
+  display: none;
+}
+
+body.theme-dark .about-image--dark {
+  display: block;
+}
+
 @media (max-width: 800px) {
   .about-header {
     padding: 20px 24px;
