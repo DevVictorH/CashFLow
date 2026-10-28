@@ -24,7 +24,22 @@ type CategoryData = {
   value: number;
 };
 
-const COLORS = ["#2563EB", "#D97706", "#0891B2", "#7C3AED", "#DB2777", "#4B5563"];
+const COLORS = [
+  "var(--chart-category-1)",
+  "var(--chart-category-2)",
+  "var(--chart-category-3)",
+  "var(--chart-category-4)",
+  "var(--chart-category-5)",
+  "var(--chart-category-6)",
+];
+const AXIS_COLOR = "var(--text-muted)";
+const AXIS_LINE_COLOR = "var(--border-color)";
+const TOOLTIP_STYLE = {
+  backgroundColor: "var(--bg-surface)",
+  border: "1px solid var(--border-color)",
+  borderRadius: "12px",
+  color: "var(--text-primary)",
+};
 const formatCurrency = (value: number) =>
   value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
@@ -86,12 +101,25 @@ export default function Charts({ incomes, expenses }: ChartsProps) {
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthlyData}>
-              <XAxis dataKey="name" />
-              <YAxis tickFormatter={(value: number) => value.toLocaleString("pt-BR")} />
-              <Tooltip formatter={(value) => formatCurrency(Number(value ?? 0))} />
+              <XAxis
+                dataKey="name"
+                tick={{ fill: AXIS_COLOR, fontSize: 12 }}
+                axisLine={{ stroke: AXIS_LINE_COLOR }}
+                tickLine={{ stroke: AXIS_LINE_COLOR }}
+              />
+              <YAxis
+                tickFormatter={(value: number) => value.toLocaleString("pt-BR")}
+                tick={{ fill: AXIS_COLOR, fontSize: 12 }}
+                axisLine={{ stroke: AXIS_LINE_COLOR }}
+                tickLine={{ stroke: AXIS_LINE_COLOR }}
+              />
+              <Tooltip
+                formatter={(value) => formatCurrency(Number(value ?? 0))}
+                contentStyle={TOOLTIP_STYLE}
+              />
               <Legend />
-              <Bar dataKey="income" name="Receitas" fill="#16A34A" />
-              <Bar dataKey="expenses" name="Despesas" fill="#DC2626" />
+              <Bar dataKey="income" name="Receitas" fill="var(--chart-income)" />
+              <Bar dataKey="expenses" name="Despesas" fill="var(--chart-expenses)" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -109,10 +137,17 @@ export default function Charts({ incomes, expenses }: ChartsProps) {
               <PieChart>
                 <Pie data={categoryData} dataKey="value" nameKey="name" outerRadius={80}>
                   {categoryData.map((category, index) => (
-                    <Cell key={category.name} fill={COLORS[index % COLORS.length]} />
+                    <Cell
+                      key={category.name}
+                      fill={COLORS[index % COLORS.length]}
+                      stroke="var(--bg-surface)"
+                    />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value) => formatCurrency(Number(value ?? 0))} />
+                <Tooltip
+                  formatter={(value) => formatCurrency(Number(value ?? 0))}
+                  contentStyle={TOOLTIP_STYLE}
+                />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>

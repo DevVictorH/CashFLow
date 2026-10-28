@@ -57,7 +57,7 @@ export default function Login() {
 
             <input
               type="password"
-              placeholder="Password"
+              placeholder="Senha"
               className="w-full p-3 border rounded-lg"
               onChange={(e) => setPassword(e.target.value)} />
 

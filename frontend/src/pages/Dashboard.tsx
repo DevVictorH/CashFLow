@@ -27,7 +27,7 @@ export default function Dashboard() {
   const expenseTotal = expenses.reduce((total, expense) => total + expense.amount, 0);
 
   return (
-    <div className="flex bg-gray-100 min-h-screen">
+    <div className="dashboard-page flex bg-gray-100 min-h-screen">
       <Sidebar />
 
       <div className="flex-1 p-6 flex flex-col gap-6">
