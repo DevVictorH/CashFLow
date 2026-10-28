@@ -61,7 +61,7 @@ export default function Home() {
         </div>
 
         <div className="home-hero__content relative z-10">
-          <h1 className="mb-6 text-5xl font-bold md:text-6xl">
+          <h1 className="mb-6 text-4xl font-bold sm:text-5xl md:text-6xl">
             Tenha o controle das suas finanças
           </h1>
 
@@ -71,7 +71,7 @@ export default function Home() {
             financeiros.
           </p>
 
-          <div className="flex justify-center gap-4">
+          <div className="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-4">
             <Link to="/register">
               <button className="rounded-xl bg-purple-600 px-8 py-3 text-white shadow-md transition hover:bg-purple-700">
                 Comece agora de graça

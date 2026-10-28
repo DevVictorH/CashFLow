@@ -34,15 +34,15 @@ export default function Incomes() {
   };
 
   return (
-    <div className="flex bg-gray-100 min-h-screen">
+    <div className="app-layout flex bg-gray-100 min-h-screen">
 
       <Sidebar />
 
-      <div className="flex-1 p-6 flex flex-col gap-6">
+      <main className="app-main flex-1 p-6 flex flex-col gap-6">
 
         <Header />
 
-        <div className="flex justify-between items-center">
+        <div className="app-page-heading flex justify-between items-center">
           <h1 className="text-2xl font-bold">Todas receitas</h1>
 
           <button
@@ -88,7 +88,7 @@ export default function Incomes() {
           )}
         </div>
 
-      </div>
+      </main>
 
       {/* Modal */}
       {openModal && (

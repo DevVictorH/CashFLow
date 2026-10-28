@@ -11,22 +11,22 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="w-64 h-screen bg-gray-50 p-4 shadow-sm">
+    <aside className="app-sidebar w-64 h-screen bg-gray-50 p-4 shadow-sm">
       <Link to="/dashboard" className="block text-xl font-bold mb-6 text-indigo-600 hover:text-indigo-700">
         Cashflow
       </Link>
 
-      <nav className="flex flex-col gap-3">
+      <nav className="app-sidebar__nav flex flex-col gap-3">
         {items.map((item, index) => (
           <Link
             key={index}
             to={item.path}
-            className="p-2 rounded-lg hover:bg-indigo-100 text-gray-700"
+            className="app-sidebar__link p-2 rounded-lg hover:bg-indigo-100 text-gray-700"
           >
             {item.name}
           </Link>
         ))}
       </nav>
-    </div>
+    </aside>
   );
 }

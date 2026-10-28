@@ -27,13 +27,13 @@ export default function Dashboard() {
   const expenseTotal = expenses.reduce((total, expense) => total + expense.amount, 0);
 
   return (
-    <div className="dashboard-page flex bg-gray-100 min-h-screen">
+    <div className="app-layout dashboard-page flex bg-gray-100 min-h-screen">
       <Sidebar />
 
-      <div className="flex-1 p-6 flex flex-col gap-6">
+      <main className="app-main flex-1 p-6 flex flex-col gap-6">
         <Header />
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           <Card
             title="Dinheiro total"
             value={formatCurrency(incomeTotal - expenseTotal)}
@@ -48,7 +48,7 @@ export default function Dashboard() {
         <Table />
 
         <Charts incomes={incomes} expenses={expenses} />
-      </div>
+      </main>
     </div>
   );
 }

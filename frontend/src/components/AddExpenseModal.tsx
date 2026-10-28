@@ -28,8 +28,8 @@ export default function AddExpenseModal({ onClose, onAdd }: AddExpenseModalProps
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-lg w-96">
+    <div className="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div className="modal-panel bg-white p-6 rounded-lg w-96">
         <h2 className="text-xl font-bold mb-4">Add Despesa</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

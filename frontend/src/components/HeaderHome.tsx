@@ -6,7 +6,7 @@ export function HeaderHome() {
     const { darkMode, toggleTheme } = useTheme();
 
     return (
-        <header className="flex items-center justify-between px-10 py-4 bg-white shadow-sm">
+        <header className="home-header flex items-center justify-between px-10 py-4 bg-white shadow-sm">
             <div className="flex items-center gap-2 font-bold text-lg">
                 <span className="text-xl font-bold text-indigo-600">CashFlow</span>
             </div>
@@ -16,7 +16,7 @@ export function HeaderHome() {
                 <Link to="/about">Sobre</Link>
             </nav>
 
-            <div className="flex items-center gap-4">
+            <div className="home-header__actions flex items-center gap-4">
                 <button
                     type="button"
                     aria-label="Toggle theme"

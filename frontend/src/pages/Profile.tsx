@@ -48,10 +48,10 @@ export default function Profile() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="app-layout flex min-h-screen bg-gray-100">
       <Sidebar />
 
-      <main className="flex flex-1 flex-col gap-6 p-6">
+      <main className="app-main flex flex-1 flex-col gap-6 p-6">
         <Header />
 
         <div className="flex items-center gap-3">
@@ -70,7 +70,7 @@ export default function Profile() {
           </div>
         </div>
 
-        <section className="max-w-2xl rounded-2xl bg-white p-6 shadow-sm">
+        <section className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-sm">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label htmlFor="profile-name" className="mb-1 block text-sm font-medium text-gray-700">

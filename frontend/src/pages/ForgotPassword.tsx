@@ -70,12 +70,12 @@ export default function ForgotPassword() {
   return (
     <>
       <Link to="/">
-        <header className="flex items-center justify-between bg-white px-10 py-4 shadow-sm">
+        <header className="auth-header flex items-center justify-between bg-white px-10 py-4 shadow-sm">
           <span className="text-xl font-bold text-indigo-600">CashFlow</span>
         </header>
       </Link>
-      <main className="flex min-h-[calc(100vh-64px)] items-center justify-center bg-gray-50 px-4 py-10">
-        <section className="w-full max-w-md rounded-xl bg-white p-8 shadow-md">
+      <main className="auth-main flex min-h-[calc(100vh-64px)] items-center justify-center bg-gray-50 px-4 py-10">
+        <section className="auth-card w-full max-w-md rounded-xl bg-white p-8 shadow-md">
           <h1 className="mb-2 text-center text-2xl font-bold text-gray-900">
             {step === "email" && "Esqueci minha senha"}
             {step === "code" && "Confira seu e-mail"}

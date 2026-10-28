@@ -76,6 +76,7 @@ export default function Table({ showAll = false, showDate = false, pageSize = 5 
     <div className="rounded-2xl bg-white p-4 shadow-sm">
       <h2 className="mb-4 font-semibold">{showAll ? "Histórico de transações" : "Transações recentes"}</h2>
 
+      <div className="table-scroll">
       <table className="w-full text-center">
         <thead>
           <tr className="text-gray-500">
@@ -110,6 +111,7 @@ export default function Table({ showAll = false, showDate = false, pageSize = 5 
           )}
         </tbody>
       </table>
+      </div>
 
       {showAll && transactions.length > 0 && (
         <div className="mt-4 flex items-center justify-between gap-4 border-t pt-4 text-sm text-gray-600">

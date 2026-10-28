@@ -19,9 +19,9 @@ export default function AddCategoryModal({ onClose, onAdd }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+    <div className="modal-backdrop fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
       
-      <div className="bg-white rounded-2xl p-6 w-full max-w-lg shadow-lg relative">
+      <div className="modal-panel bg-white rounded-2xl p-6 w-full max-w-lg shadow-lg relative">
 
         {/* Close */}
         <button

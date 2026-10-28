@@ -33,15 +33,15 @@ export default function Login() {
   return (
         <>
         <Link to="/">
-           <header className="flex items-center justify-between px-10 py-4 bg-white shadow-sm">
+           <header className="auth-header flex items-center justify-between px-10 py-4 bg-white shadow-sm">
         <div className="flex items-center gap-2 font-bold text-lg">
           <span className="text-xl font-bold text-indigo-600">CashFlow</span>
         </div>
       </header>
         </Link>
 
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md">
+    <div className="auth-main min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="auth-card bg-white p-8 rounded-2xl shadow-md w-full max-w-md">
 
           <h2 className="text-2xl font-bold mb-6 text-center">
             Login

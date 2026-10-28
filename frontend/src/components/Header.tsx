@@ -15,12 +15,12 @@ export default function Header() {
   };
 
   return (
-    <div className="flex justify-end items-center bg-white p-4 shadow-sm rounded-xl">
+    <div className="app-header flex justify-end items-center bg-white p-4 shadow-sm rounded-xl">
       
 
       <div className="flex items-center gap-4">
 
-        <div className="flex items-center gap-2">
+        <div className="app-header__actions flex items-center gap-2">
           <button
             type="button"
             aria-label="Toggle theme"
@@ -39,7 +39,7 @@ export default function Header() {
           >
             <FiUser className="h-10 w-10 rounded-full bg-gray-100 p-2 text-gray-600 hover:bg-indigo-100" />
           </button>
-          <span className="font-medium">{userName}</span>
+          <span className="app-header__username font-medium">{userName}</span>
           <button
             type="button"
             onClick={handleLogout}
