@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = "/api/auth";
+import { api } from "./api";
 
 export type RegisterData = {
   name: string;
@@ -33,7 +31,7 @@ export const authConfig = () => ({
 });
 
 export const login = async (email: string, password: string) => {
-  const response = await axios.post(`${API_URL}/login`, {
+  const response = await api.post("/auth/login", {
     email,
     password,
   });
@@ -42,27 +40,27 @@ export const login = async (email: string, password: string) => {
 };
 
 export const register = async (data: RegisterData) => {
-  await axios.post(`${API_URL}/register`, data);
+  await api.post("/auth/register", data);
 };
 
 export const requestPasswordRecovery = async (email: string) => {
-  await axios.post(`${API_URL}/recovery-password`, { email });
+  await api.post("/auth/recovery-password", { email });
 };
 
 export const verifyRecoveryCode = async (email: string, code: string) => {
-  await axios.post(`${API_URL}/verify-recovery-code`, { email, code });
+  await api.post("/auth/verify-recovery-code", { email, code });
 };
 
 export const resetPassword = async (email: string, code: string, newPassword: string) => {
-  await axios.post(`${API_URL}/change-password`, { email, code, newPassword });
+  await api.post("/auth/change-password", { email, code, newPassword });
 };
 
 export const getProfile = async () => {
-  const response = await axios.get(`${API_URL}/me`, authConfig());
+  const response = await api.get("/auth/me", authConfig());
   return response.data as ProfileData;
 };
 
 export const updateProfile = async (data: ProfileUpdateData) => {
-  const response = await axios.put(`${API_URL}/me`, data, authConfig());
+  const response = await api.put("/auth/me", data, authConfig());
   return response.data as ProfileData;
 };

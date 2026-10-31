@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "./api";
 import { authConfig } from "./authService";
 
 export type FinancialRecord = {
@@ -36,14 +36,14 @@ const toRecord = (item: FinancialResponse): FinancialRecord => ({
 
 const createFinancialService = (resource: "expenses" | "incomes") => ({
   async list() {
-    const response = await axios.get<FinancialResponse[]>(`/api/${resource}`, authConfig());
+    const response = await api.get<FinancialResponse[]>(`/${resource}`, authConfig());
     return response.data.map(toRecord);
   },
   async create(data: FinancialRequest) {
-    await axios.post(`/api/${resource}`, data, authConfig());
+    await api.post(`/${resource}`, data, authConfig());
   },
   async remove(id: number) {
-    await axios.delete(`/api/${resource}/${id}`, authConfig());
+    await api.delete(`/${resource}/${id}`, authConfig());
   },
 });
 

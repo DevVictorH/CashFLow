@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "./api";
 import { authConfig } from "./authService";
 
 export type CategoryType = "EXPENSE" | "INCOME";
@@ -9,17 +9,15 @@ export type Category = {
   type: CategoryType;
 };
 
-const API_URL = "/api/categories";
-
 export const getCategories = async () => {
-  const response = await axios.get<Category[]>(API_URL, authConfig());
+  const response = await api.get<Category[]>("/categories", authConfig());
   return response.data;
 };
 
 export const createCategory = async (name: string, type: CategoryType) => {
-  await axios.post(API_URL, { name, type }, authConfig());
+  await api.post("/categories", { name, type }, authConfig());
 };
 
 export const deleteCategory = async (categoryId: number) => {
-  await axios.delete(`${API_URL}/${categoryId}`, authConfig());
+  await api.delete(`/categories/${categoryId}`, authConfig());
 };
