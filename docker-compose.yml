@@ -6,6 +6,8 @@ services:
     container_name: cashflow-app
     ports:
       - "8080:8080"
+    env_file:
+      - .env
     environment:
       JWT_SECRET: my-secret-key
       MAIL_PASSWORD: ${MAIL_PASSWORD}
