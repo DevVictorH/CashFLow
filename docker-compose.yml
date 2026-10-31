@@ -9,9 +9,9 @@ services:
     environment:
       JWT_SECRET: my-secret-key
       MAIL_PASSWORD: ${MAIL_PASSWORD}
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/cashflow
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_DATASOURCE_URL: ${DATABASE_URL}
+      SPRING_DATASOURCE_USERNAME: ${DATABASE_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DATABASE_PASSWORD}
     depends_on:
       - db
 
@@ -20,8 +20,8 @@ services:
     container_name: cashflow-db
     restart: always
     environment:
-      POSTGRES_DB: cashflow
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: cashflowdb
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - "5432:5432"
