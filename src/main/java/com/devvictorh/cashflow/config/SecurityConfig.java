@@ -52,7 +52,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(java.util.List.of(
                 "http://localhost:5173",
                 "http://localhost:4173",
-                "https://cashflow-kohl-tau.vercel.app"
+                "https://cashflowapp-finance.vercel.app"
         ));
         configuration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(java.util.List.of("Authorization", "Content-Type"));
